@@ -49,6 +49,19 @@
 		ORDER BY 	tl_startDate DESC
 	</select>	
 	
-	  
+	<!-- 여행 데이터 -->
+	<select id="tripData" resultType="java.util.Map">
+		SELECT 		tl_tripNo,
+				    tl_country,
+				    tl_city,
+				    tl_startDate,
+				    tl_endDate,
+				    tl_tripTitle,
+				    tl_photoMenuNm,
+				    tl_regDate,
+			    	tl_modDate
+		FROM 		trip_list
+		WHERE		tl_tripNo = #{tripNo}
+	</select>	  
   
   </mapper>

@@ -39,10 +39,23 @@ public class tripSvc {
 	//여행 일정 목록
 	public List<Map<String, Object>> tripList() {
 	
-		
 		List<Map<String, Object>> resultMap = tripDao.tripList();
 		
 		return resultMap;
 	}
+
+	//tripData
+	public Map<String, Object> tripData(Map<String, Object> data) {
+		
+		System.out.println("여행 일정 조회 서비스 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = tripDao.tripData(data);
+		System.out.println("resultMap 서비스 data >> "+ resultMap);
+		
+		return resultMap;
+	}
+	
+	
 
 }

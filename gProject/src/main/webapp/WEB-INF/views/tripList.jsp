@@ -155,7 +155,7 @@ function getList(){
                     '   <div style="margin-top: 1rem;"> 여행 앨범명 : '+ item.tl_photoMenuNm +'</div>'+                    
                     '   <div style="margin-top: 1.5rem;">'+
                     '		<a href="#" data-tag="people" class="button" id="'+ item.tl_tripNo +'">photo</a>'+
-                    '		<a href="#" data-tag="people" class="button kFont active" id="'+ item.tl_tripNo +'">일정추가</a></div>'+
+                    '		<a href="#" data-tag="people" class="button kFont active" onclick="tripAddBtn(\'' + item.tl_tripNo + '\')" id="">일정추가</a></div>'+
                     '</div>';
             });
             // 템플릿을 페이지에 추가
@@ -168,6 +168,15 @@ function getList(){
 function detailPage(tripNo){
 	
 	console.log("tripNo >> " , tripNo)
+}
+
+
+function tripAddBtn(tripNo){
+	
+	console.log("tripNo >> " , tripNo)
+	location.href="/tripDetailUpload?tripNo="+tripNo;
+	
+	
 }
 
 

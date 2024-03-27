@@ -13,7 +13,8 @@ public interface tripDao {
 
 	public String tripNoSelect(); 											//여행 번호 생성 조회
 
-	public List<Map<String, Object>> tripList();	//여행 목록
+	public List<Map<String, Object>> tripList();							//여행 전체 목록
 	
-
+	public Map<String, Object> tripData(Map<String, Object> data);			//여행 데이터
+	
 }

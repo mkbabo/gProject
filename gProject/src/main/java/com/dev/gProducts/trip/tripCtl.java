@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,6 +40,19 @@ public class tripCtl {
 
         return resultMap;
     }
+    
+	//여행 일정 조회
+	@RequestMapping(value = "/tripData", method = RequestMethod.GET)
+	public Map<String, Object> tripData (@RequestParam Map<String, Object> data) throws Exception {
+		
+		System.out.println("여행 일정 조회 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = tripSvc.tripData(data);
+		
+		return resultMap;
+		
+	}    
 	
 	
 }

@@ -43,6 +43,11 @@ public class pageController {
 	public String tripUpload() {
 		return "tripUpload";	
 	}
-	
 
+	//tripDetailUpload 이동
+	@RequestMapping(value = "/tripDetailUpload")
+	public String tripDetailUpload() {
+		return "tripDetailUpload";	
+	}	
+	
 }

@@ -7,6 +7,8 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="<c:url value='/css/main.css'/>">
+ <!-- jquery -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <!-- Google fonts-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,7 +119,7 @@
 
 function tripWrite(){
 	
-	console.log("버튼클릭!");
+	console.log("버튼클릭! ");
 	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
 
 	var jsonMemberData = JSON.stringify(formSerializeObject);
