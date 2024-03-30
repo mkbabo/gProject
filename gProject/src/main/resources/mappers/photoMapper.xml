@@ -25,7 +25,7 @@
 	    FROM photo_list
 	</select>	
 	
-	
+	<!-- 사진 등록  -->
 	  <insert id="photoInsert" parameterType="string">  
 		  
 		  INSERT INTO photo_list (
@@ -40,6 +40,18 @@
 			)
 			
 	  </insert>
+	  
+ 	<!-- 사진 목록 -->
+	<select id="photoSelectList" resultType="java.util.Map">
+		SELECT  	pl_photoNo,
+					pl_tripNo,
+					pl_regDate,
+					pl_photoFileNm
+		FROM 		photo_list
+		WHERE		pl_tripNo = #{tripNo}
+		ORDER BY 	pl_photoNo DESC
+	</select> 	  
+	  
   
   
   

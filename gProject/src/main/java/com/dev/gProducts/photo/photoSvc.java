@@ -20,30 +20,8 @@ public class photoSvc {
 		
 		return resultMap;
 	}
-/*
-	public Map<String, Object> photoInsert(Map<String, Object> data, MultipartFile[] files) {
 
-		String newPhotoNo = photoDao.photoNoSelect();
-		data.put("photoNo", newPhotoNo);
-		
-		return null;
-	}*/
-/*
-	public int photoInsert(String tripNo, String storedFileName) {
-		
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		
-		String newPhotoNo = photoDao.photoNoSelect();
-		dataMap.put("photoNo", newPhotoNo);	
-		dataMap.put("tripNo", tripNo);	
-		dataMap.put("photoFileNm", storedFileName);	
-	
-		int result = photoDao.photoInsert(dataMap);
-
-		return result;
-	}*/
-
-	
+	//사진 업로드
 	public Map<String, Object> photoInsert(String tripNo, String[] storedFileNames) {
 		
 		Map<String, Object> resultMap = new HashMap<>();
@@ -69,7 +47,13 @@ public class photoSvc {
 	
 	}
 	
-	
+	//여행 별 사진 목록
+	public List<Map<String, Object>> photoSelectList(Map<String, Object> data) {
+		
+		List<Map<String, Object>> resultMap = photoDao.photoSelectList(data);
+		
+		return resultMap;
+	}
 	
 	
 	

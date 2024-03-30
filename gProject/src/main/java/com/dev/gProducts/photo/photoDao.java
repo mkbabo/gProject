@@ -14,6 +14,8 @@ public interface photoDao {
 	public int photoInsert(Map<String, Object> data); 						//사진 추가
 
 	public int photoInsert(String photoNo, String tripNo, String photoFileNm);
-
+	
+	public List<Map<String, Object>> photoSelectList(Map<String, Object> data); //여행 별 목록
+	
 	
 }

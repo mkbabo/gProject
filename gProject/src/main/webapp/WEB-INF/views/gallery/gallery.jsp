@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+
  <link rel="stylesheet" href="<c:url value='./css/main.css'/>">
 
 <!-- header  -->
@@ -95,12 +100,13 @@
 			<input type="button" class="button active kfont" onclick="dataInsert();" value="upload">
 		</div>
 	    
-			<div class="content">
+			<div class="content photoGallery">
+			
 			    <div class="media all people">
-			        <a href="" style="outline: 0px;">
-			        	<img src="images/thumbs/01.jpg" alt="" title="" width="450" height="450">
+			    <!--     <a href="" style="outline: 0px;">
+			        	<img src="/fileUpload/trip_005/c239ccea-d6e4-44c7-83e7-d783f5920d2f_vl19.jpg" alt="" title="" width="450" height="450">
 			        </a>
-				</div>
+			<!-- 	</div>
 				<div class="media all place">
 				    <a href="" style="outline: 0px;">
 				    	<img src="images/thumbs/05.jpg" alt="" title="" width="450" height="450">
@@ -155,7 +161,8 @@
 				    <a href="" style="outline: 0px;">
 				    	<img src="images/thumbs/12.jpg" alt="" title="">
 				    </a>
-				</div>
+				</div> -->
+				
 			</div>		    
 		</div>
 		</section>
@@ -232,7 +239,6 @@ function selectBox(){
 //내용 및 이미지 등록
  function dataInsert(){
 	
-	 console.log("여행번호 >> ");
 	 var formData = new FormData();
 
 	 // 여행번호 (선택된 값 가져오기)
@@ -261,23 +267,22 @@ function selectBox(){
 	    success: function (result) {
 	        console.log("성공>> ", result);
 	        alert(result.message);
-/* 	        //if (result.list.code == "ok") {
-	            
-	           // location.href = "/data/dataSearch.do"; //페이지로 이동
-	        } else {
-	           // alert(result.list.message);
-	           // return false;
-	        } */
+	        //location.href = "/data/dataSearch.do"; //페이지로 이동
+	        
+	        //사진 보여주기!
+	        photoDetailPage(selectedValue);
+	        
+	        
+
 	    },
 	    error: function (request, status, error) {
 	        alert("실패");
 	    }
 	});
 	
-	
-	
-	
 }
+ 
+ 
  
 	
 	
@@ -293,23 +298,43 @@ function selectBox(){
     }
 
 
-//
-
-
-
-
-
-
-
-
-
-
-
 //각 버튼 해당 이미지 보여주기	
-function photoDetailPage(tripNo){
+
+function photoDetailPage(tripNo) {
 	
-	console.log("버튼 >> " , tripNo)
-}	
+	console.log("번호 오니??? >", tripNo);
+
+	let jsonData = { tripNo: tripNo }; // tripNo를 객체의 속성 이름으로 사용
+	console.log("jsonData >", jsonData);
+	 
+	//select box와 파일 input 초기화 필요
+		$.ajax({
+		    url:'/photoSelectList',
+		    type: 'GET',
+		    dataType: 'json',
+		    data: jsonData,
+	        success : function(result){
+	            console.log("결과 리스트~~ >>", result);	            
+	            var template = "";
+	            
+	            $.each(result, function(index, item) { //item.pl_photoFileNm
+	            	template += 
+	        		'<div class="media all place">'+
+	        	    	'<a href="" style="outline: 0px;">'+
+	        	    	'<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="450" height="450">'+
+	        	    	'</a>'+
+	        		'</div>';     
+	          });
+  
+	            // 템플릿을 페이지에 추가
+	            $('.photoGallery').empty().append(template);
+			}	
+		});
+	
+	}
+
+
+
 
 
 
