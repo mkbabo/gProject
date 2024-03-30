@@ -7,14 +7,10 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="<c:url value='/css/main.css'/>">
- <!-- jquery -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
- <!-- Google fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"> 
- 
-<title>Travel Memories Album</title>
+
+
+<!-- header  -->
+<jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
 	.kFont {
@@ -60,26 +56,8 @@
 
 	<div class="page-wrap">
 	
-		<!-- Nav -->
-		<nav id="nav">
-			<ul>
-				<li>
-					<a href="/" class="active">
-						<span class="icon fa-home"></span>
-					</a>
-				</li>
-				<li>
-					<a href="gallery">
-						<span class="icon fa-camera-retro"></span>
-					</a>
-				</li>
-				<li>
-					<a href="tripList">
-						<span class="icon fa-file-text-o"></span>
-					</a>
-				</li>
-			</ul>		
-		</nav> 
+	<!-- Nav  -->
+	<jsp:include page="../include/nav.jsp" />
         
         <!-- Main -->
         <section id="main">
@@ -242,7 +220,7 @@ function tripData(tripNo){
             var template = ""; // 템플릿 변수 초기화
 
                 template += 
-                    '<div class="" style="padding-top : 0;">'+
+                    '<div class="kFont" style="padding-top : 0;">'+
                     '   <div style="margin-top: 1rem;"> 나라 : '+ item.tl_country +'</div>'+
                     '   <div style="margin-top: 1rem;"> 도시 : '+ item.tl_city +'</div>'+
                     '   <div style="margin-top: 1rem;"> 여행날짜 : '+ item.tl_startDate+' ~ '+ item.tl_endDate +'</div>'+                
@@ -347,8 +325,8 @@ function addDatesToTable(dates) {
 	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_price" placeholder="금액" value=""></td>
 	    </tr>   
 	</table>
-	<button style="margin: 2rem 0rem;" onclick="addSchedule('${'${index}'}');">일정 추가</button>	
-	<button class="active" style="margin: 2rem 0rem;" onclick="removeLastSchedule('${'${index}'}');">일정 삭제</button>
+	<button class="kFont" style="margin: 2rem 0rem;" onclick="addSchedule('${'${index}'}');">일정 추가</button>	
+	<button class="active kFont" style="margin: 2rem 0rem;" onclick="removeLastSchedule('${'${index}'}');">일정 삭제</button>
 
     `;
     	

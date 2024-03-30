@@ -7,14 +7,10 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="<c:url value='/css/main.css'/>">
- <!-- jquery -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <!-- Google fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"> 
- 
-<title>Travel Memories Album</title>
+
+
+<!-- header  -->
+<jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
 	.kFont {
@@ -30,26 +26,8 @@
 
 	<div class="page-wrap">
 	
-		<!-- Nav -->
-		<nav id="nav">
-			<ul>
-				<li>
-					<a href="/" class="active">
-						<span class="icon fa-home"></span>
-					</a>
-				</li>
-				<li>
-					<a href="gallery">
-						<span class="icon fa-camera-retro"></span>
-					</a>
-				</li>
-				<li>
-					<a href="tripList">
-						<span class="icon fa-file-text-o"></span>
-					</a>
-				</li>
-			</ul>		
-		</nav> 
+	<!-- Nav  -->
+	<jsp:include page="../include/nav.jsp" />
         
         <!-- Main -->
         <section id="main">

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  <mapper namespace="com.dev.gProducts.photo.photoDao">
+  
+ 	<!-- 여행 목록 -->
+	<select id="photoList" resultType="java.util.Map">
+		SELECT 		tl_tripNo,
+				    tl_country,
+				    tl_city,
+				    tl_startDate,
+				    tl_endDate,
+				    tl_tripTitle,
+				    tl_photoMenuNm,
+				    tl_regDate,
+			    	tl_modDate
+		FROM 		trip_list
+		ORDER BY 	tl_startDate DESC
+	</select> 
+	
+	<!-- 여행 번호 생성 조회 -->
+	<select id="photoNoSelect" resultType="string">
+	    SELECT IFNULL(CONCAT('photo_', LPAD(MAX(CAST(SUBSTRING(pl_photoNo, 7) AS UNSIGNED)) + 1, 3, '0')), 'photo_001') AS newPhotoNo 
+	    FROM photo_list
+	</select>	
+	
+	
+	  <insert id="photoInsert" parameterType="string">  
+		  
+		  INSERT INTO photo_list (
+				pl_photoNo,
+				pl_tripNo,
+				pl_photoFileNm
+			)
+			VALUES(
+				#{photoNo},
+				#{tripNo},
+				#{photoFileNm}
+			)
+			
+	  </insert>
+  
+  
+  
+  </mapper>
+  

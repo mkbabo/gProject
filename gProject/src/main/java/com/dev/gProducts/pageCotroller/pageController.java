@@ -13,41 +13,37 @@ public class pageController {
 	public String main() {
 		return "main";	
 	}
-	
-	//gallery 이동
-	@RequestMapping(value = "/gallery")
-	public String gallery() {
-		return "gallery";	
-	}
-	
-	//generic 이동
-	@RequestMapping(value = "/generic")
-	public String generic() {
-		return "generic";	
-	}
-	
-	//photoUpload 이동
-	@RequestMapping(value = "/photoUpload")
-	public String photoUpload() {
-		return "photoUpload";	
-	}
+
+	/*trip Page*/
 	
 	//tripList 이동
 	@RequestMapping(value = "/tripList")
 	public String tripList() {
-		return "tripList";	
+		return "trip/tripList";	
 	}
 	
 	//tripUpload 이동
 	@RequestMapping(value = "/tripUpload")
 	public String tripUpload() {
-		return "tripUpload";	
+		return "trip/tripUpload";	
 	}
 
 	//tripDetailUpload 이동
 	@RequestMapping(value = "/tripDetailUpload")
 	public String tripDetailUpload() {
-		return "tripDetailUpload";	
+		return "trip/tripDetailUpload";	
 	}	
+	
+
+	/*photo gallery Page*/
+	
+	//gallery 이동
+	@RequestMapping(value = "/gallery")
+	public String gallery() {
+		return "/gallery/gallery";	
+	}
+
+	
+	
 	
 }

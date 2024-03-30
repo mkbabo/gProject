@@ -32,9 +32,9 @@ public class tripCtl {
 	}
 	
 	//여행 일정 목록
-    @GetMapping("/getList")
+    @RequestMapping(value = "/getList", method = RequestMethod.GET)
     public List<Map<String, Object>> tripList () {
-        System.out.println("컨트롤!");
+        System.out.println("여행 일정 목록 컨트롤");
 
         List<Map<String, Object>> resultMap = tripSvc.tripList();
 

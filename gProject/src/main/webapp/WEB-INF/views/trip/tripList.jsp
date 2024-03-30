@@ -7,16 +7,10 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="<c:url value='/css/main.css'/>">
- <!-- jquery -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- Font Awesome icons (free version)-->
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<!-- Google fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"> 
- 
-<title>Travel Memories Album</title>
+
+
+<!-- header  -->
+<jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
 
@@ -31,8 +25,6 @@
 	font-style: normal;
 
 }
-
-
 </style>
 
 </head>
@@ -40,27 +32,10 @@
 
 	<div class="page-wrap">
 	
-		<!-- Nav -->
-		<nav id="nav">
-			<ul>
-				<li>
-					<a href="/" class="active">
-						<span class="icon fa-home"></span>
-					</a>
-				</li>
-				<li>
-					<a href="gallery">
-						<span class="icon fa-camera-retro"></span>
-					</a>
-				</li>
-				<li>
-					<a href="tripList">
-						<span class="icon fa-file-text-o"></span>
-					</a>
-				</li>
-			</ul>		
-		</nav> 
-        
+	<!-- Nav  -->
+	<jsp:include page="../include/nav.jsp" />
+
+       
         <!-- Main -->
         <section id="main">
         
@@ -140,7 +115,7 @@ function getList(){
         //data : data,        
         success : function(result){
             console.log("전체 글 결과 리스트 >>", result);
-            var template = ""; // 템플릿 변수 초기화
+             var template = ""; // 템플릿 변수 초기화
             $.each(result, function(index, item) {
                 // 각 행 추가
                 template += 
@@ -182,17 +157,5 @@ function tripAddBtn(tripNo){
 
 </script>
 
-
-
-
-<!-- 
-
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.poptrox.min.js"></script>
-<script src="js/jquery.scrolly.min.js"></script>
-<script src="js/skel.min.js"></script>
-<script src="js/util.js"></script>
-<script src="js/main.js"></script>
--->
 </body>
 </html>
