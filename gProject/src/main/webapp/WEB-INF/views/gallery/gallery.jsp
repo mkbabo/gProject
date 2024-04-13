@@ -23,29 +23,46 @@
 		font-style: normal;
 	}
 	
+	.uploadMenu {
+		display: grid; 
+		grid-template-columns: 1fr 1.8fr 1fr 1fr;
+	}
+	
+	#photoSelect{
+		height: 2.75em;
+		width: 95%;
+	}
+	
 /* 파일 업로드 */	
 		
 	.filebox .upload-name {
 	    display: inline-block;
-	   	height: 35px; 
-	    padding: 0 10px;
-	    vertical-align: middle;
-	    width: 65%;
-	    font-weight: bold;
-	    border: 0;
 	    box-sizing: border-box;
+	    vertical-align: middle;
+	   	height: 2.75em;
+	    width: 75%;
+	    font-weight: bold;
+	    border: 1px solid #C5ECFF;
+		margin-bottom: 2rem;
+		border-radius: 5px;
+		
+		
 	}
-	.upload-name:focus {outline:none;}
+	/*  .upload-name:focus {outline:none;}*/
+
 	
 	.filebox label {
 	    display: inline-block;
-	    padding: 8px 31px;
+	    padding: 9.5px 31px;
 	    color: #000;
 	    vertical-align: middle;
-	    background-color: #E2F0D9;
-	    border: 2px solid #B2D69A;
+	    background-color: #ddedec;
+	    border: 2px solid #C5ECFF;
 	    cursor: pointer;
-	    margin-left: 10px;   
+	    margin-left: 5px;
+	    margin-bottom: 2rem;
+	    border-radius: 5px;
+
 	}
 	
 	.filebox input[type="file"] {
@@ -87,81 +104,22 @@
 			<div id="btnContainer"></div><!-- 앨범 버튼 동적 생성 -->			    
 	    </header>
 
-		<div>
+		<div class="uploadMenu">  
 			<div id="selectContainer"></div><!-- 앨범명 동적 생성 -->	
 			
 			<!-- 업로드 파일  -->				
 				<div class="filebox">
-					<input class="upload-name" value="" placeholder="첨부파일" readonly="readonly" id="dataFileName" name="dataFileName">
+					<input class="upload-name kFont" value="" placeholder=" 첨부파일" readonly="readonly" id="dataFileName" name="dataFileName">
 					<label for="file">파일찾기</label> 
 					<input type="file" id="file" name="dataFileUpload" multiple onchange="displaySelectedFiles(this)">
 				</div>
 			<!-- 업로드 버튼 -->											
-			<input type="button" class="button active kfont" onclick="dataInsert();" value="upload">
+			<input type="button" class="button active kfont" style="width: 50%; height: 2.75em;" onclick="dataInsert();" value="upload">
 		</div>
 	    
 			<div class="content photoGallery">
 			
-			    <div class="media all people">
-			    <!--     <a href="" style="outline: 0px;">
-			        	<img src="/fileUpload/trip_005/c239ccea-d6e4-44c7-83e7-d783f5920d2f_vl19.jpg" alt="" title="" width="450" height="450">
-			        </a>
-			<!-- 	</div>
-				<div class="media all place">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/05.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all thing">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/09.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all people">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/02.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all place">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/06.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all thing">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/10.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all people">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/03.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all place">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/07.jpg" alt="" title="" width="450" height="450">
-				    </a>
-				</div>
-				<div class="media all thing">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/11.jpg" alt="" title="">
-				    </a>
-				</div>
-				<div class="media all people">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/04.jpg" alt="" title="">
-				    </a>
-				</div>
-				<div class="media all place">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/08.jpg" alt="" title="">
-				    </a>
-				</div>
-				<div class="media all thing">
-				    <a href="" style="outline: 0px;">
-				    	<img src="images/thumbs/12.jpg" alt="" title="">
-				    </a>
-				</div> -->
+			  <!-- 사진 위치! -->
 				
 			</div>		    
 		</div>
@@ -216,7 +174,7 @@ function selectBox(){
 	        console.log("결과 리스트 >>", result);
 
 	        // select box 요소 선택
-	        var selectBox = $('<select id="photoSelect"></select>');
+	        var selectBox = $('<select class="kFont" id="photoSelect"></select>');
 	        
 	     // "선택" 옵션 추가
 	        var defaultOption = $('<option value="">선택</option>');
@@ -335,8 +293,17 @@ function photoDetailPage(tripNo) {
 
 
 
+// 현재 URL 가져오기 (trip List에서 Gallery 버튼 클릭하여 들어온 url)
+var currentUrl = window.location.href;
 
-
+// URL을 파싱하여 tripNo 값을 가져오기
+var url = new URL(currentUrl);
+var tripNo = url.searchParams.get("tripNo");
+if (tripNo) {
+    console.log("tripNo 값: " + tripNo);
+    photoDetailPage(tripNo);
+    
+}
 
 
 
