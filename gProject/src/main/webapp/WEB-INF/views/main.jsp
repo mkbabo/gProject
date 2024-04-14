@@ -8,6 +8,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="<c:url value='/css/main.css'/>">
 <title>Travel Memories Album</title>
+
+<style type="text/css">
+
+.img-container {
+    width: 400px; /* 원하는 너비 */
+    height: 280px; /* 원하는 높이 */
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+
 </head>
 <body>
 
@@ -55,54 +70,41 @@
 		
 			<!-- Photo Galleries -->
 			<div class="gallery">
-				<header class="special">
+			<!-- 	<header class="special">
 					<h2>What's New</h2>
-				</header>
+				</header> -->
 				<div class="content">
-					<div class="media">
-						<a href="images/fulls/01.jpg">
-							<img src="images/thumbs/01.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+
+					<div class="media img-container">					
+						<img src="images/thumbs/korea05.jpg" alt="">			
 					</div>
-					<div class="media">
-						<a href="images/fulls/05.jpg">
-							<img src="images/thumbs/05.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea06.jpg" alt="" >			
 					</div>
-					<div class="media">
-						<a href="images/fulls/09.jpg">
-							<img src="images/thumbs/09.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea07.jpg" alt="">			
 					</div>
-					<div class="media">
-						<a href="images/fulls/02.jpg">
-							<img src="images/thumbs/02.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea08.jpg" alt="">			
 					</div>
-					<div class="media">
-						<a href="images/fulls/06.jpg">
-							<img src="images/thumbs/06.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea01.jpg" alt="">			
 					</div>
-					<div class="media">
-						<a href="images/fulls/10.jpg">
-							<img src="images/thumbs/10.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea02.jpg" alt="">			
 					</div>
-					<div class="media">
-						<a href="images/fulls/03.jpg">
-							<img src="images/thumbs/03.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
-					</div>
-					<div class="media">
-						<a href="images/fulls/07.jpg">
-							<img src="images/thumbs/07.jpg" alt="" title="This right here is a caption." width="450" height="450">
-						</a>
+					<div class="media img-container">					
+						<img src="images/thumbs/korea04.jpg" alt="">			
+					</div>				
+					<div class="media img-container">					
+						<img src="images/thumbs/korea03.jpg" alt="">			
 					</div>
 				</div>
-			<footer>
-				<a href="gallery.html" class="button big">photo album</a>
-			</footer>
+				
+				
+		<!-- 	<footer>
+				<a href="/gallery" class="button big">gallery</a>
+			</footer> -->
 		</div>
 	</section>
 	
@@ -116,13 +118,19 @@
 		Design by: <a href="https://templated.co/">TEMPLATED.CO</a>
 	</div>
 	
+<script type="text/javascript">
+
+
+</script>	
+	
+	
 		<!-- Scripts -->
-	<script src="js/jquery.min.js"></script>
+<!-- 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.poptrox.min.js"></script>
 	<script src="js/jquery.scrolly.min.js"></script>
 	<script src="js/skel.min.js"></script>
 	<script src="js/util.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/main.js"></script> -->
 
 </body>
 </html>

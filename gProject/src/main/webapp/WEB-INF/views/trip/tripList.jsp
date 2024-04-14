@@ -63,12 +63,16 @@
 		        
 	         		<section class="columns double table-container">
 		             	<!-- 본문 반복! -->
-		             		<!--  
+		             			<!--
 		             		<div class="column tripList">
+			                 <span class="image right">
+			                 	<i class="fa-solid fa-xmark"></i>
+			                 </span>
 			                 <span class="image left">
 			                 	<i class="fa-solid fa-plane"></i>
 			                 </span>
-			                 <div style="font-size: 1.5rem; font-weight: bold;" onclick="detailPage('')">비오는 날의 대만 타이베이 여행</div>
+			                 <div style="font-size: 1.5rem; font-weight: bold;" onclick="detailPage('')">비오는 날의 대만 타이베이 여행
+			                 </div>
 			                 <div style="margin-top: 1.5rem;">나라 : </div>
 			                 <div style="margin-top: 1.5rem;">도시 : </div>
 			                 <div style="margin-top: 1.5rem;">여행날짜 : </div>
@@ -92,7 +96,7 @@
 			                 <p>여행날짜 : </p>
 			                 <a href="#" data-tag="people" class="button">photo</a>
 		             	</div>
-		             	-->
+		               -->
 		             	
 	         	</section>
 			</div>
@@ -127,6 +131,9 @@ function getList(){
                 // 각 행 추가
                 template += 
                     '<div class="column tripList">'+
+                    '   <span class="image right" onclick="tripDelBtn(\'' + item.tl_tripNo + '\')" >'+
+                 			'<i class="fa-solid fa-xmark"></i>'+
+                 	'   </span>'+                  
                     '   <span class="image left">'+
                     '       <i class="fa-solid fa-plane"></i>'+
                     '   </span>'+
@@ -168,6 +175,39 @@ function photoBtn(tripNo){
 	location.href="/gallery?tripNo="+tripNo;
 	
 	
+}
+
+
+function tripDelBtn(tripNo) {
+    var confirmDelete = confirm('여행 일정을 삭제하시겠습니까?');
+
+    if (confirmDelete) {
+        console.log("삭제 버튼 >> ", tripNo);
+
+        var jsonData = {
+            tripNo: tripNo
+        };
+
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(jsonData), // JSON 문자열로 데이터 변환
+            url: '/tripDelete',
+            success: function(result) {
+                if (result.code == "ok") {
+                    alert("여행 일정이 삭제되었습니다.");
+                    //location.href = "/tripList"; // 여행 목록 페이지로 이동
+                    getList();
+                } else {
+                    alert("여행 일정 삭제에 실패하였습니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("여행 일정 삭제 중 에러:", error);
+                alert("여행 일정 삭제 중 에러가 발생했습니다.");
+            }
+        });
+    }
 }
 
 

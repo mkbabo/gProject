@@ -17,4 +17,6 @@ public interface tripDao {
 	
 	public Map<String, Object> tripData(Map<String, Object> data);			//여행 데이터
 	
+	public int tripDelete(Map<String, Object> data); 						//여행 삭제
+	
 }

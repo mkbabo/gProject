@@ -177,7 +177,7 @@ $(document).ready(function(){
     repeatSection.each(function(index) {
     	
     	//console.log("ㅜㅜㅜㅜ >> " , index, $(this).html())
-        const newRow = $('<tr class='+index+'></tr>').html($(this).html()).attr('data-id', index);
+        const newRow = $('<tr class=newDiv'+index+'></tr>').html($(this).html()).attr('data-id', index);
         newRow.insertBefore(lastSchedule);
     });
 }
@@ -277,9 +277,9 @@ function addDatesToTable(dates) {
 	        <col width=10%>                                   
 	    </colgroup>    
 	
-	    <tr class="repeat-sectionDate table-containerDate">
-	        <th class="tableBth" colspan="7">${'${date}'}</th>
-	    </tr>					
+	    <tr class="repeat-sectionDate table-containerDate" data-date="${date}">
+        	<th class="tableBth" colspan="7">${date}</th>
+    	</tr>					
 	    <!-- 반복 부분 시작 -->
 	    <tr class="repeat-section_${'${index}'}">
 	        <th class="tableBth">장소</th>
@@ -288,12 +288,24 @@ function addDatesToTable(dates) {
 	        <th class="tableBth" colspan="2">비용</th>
 	    </tr>
 	    <tr class="repeat-section_${'${index}'}">
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_place" placeholder="장소" value="" ></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_startTime" placeholder="일정시작시간" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_lLastTime" placeholder="일정끝시간" value=""></td>
-	        <td class="tableBtd" colspan="2"><input class="tInput" name="${'${date}'}_${'${index}'}_travelDetail" type="text" placeholder="일정 관련 내용" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_priceDetail" placeholder="비용 관련 내용" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_price" placeholder="금액" value=""></td>
+	        <td class="tableBtd">
+	        	<input class="tInput place_${index}" data-date="${date}" data-index="${index}" type="text" name="place" placeholder="장소" value="" >
+	        </td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="startTime" placeholder="일정시작시간" value="">
+	        </td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="LastTime" placeholder="일정끝시간" value="">
+	        </td>
+	        <td class="tableBtd" colspan="2">
+	        	<input class="tInput" data-date="${date}" data-index="${index}" name="travelDetail" type="text" placeholder="일정 관련 내용" value="">
+	        </td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="priceDetail" placeholder="비용 관련 내용" value="">
+	        </td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="price" placeholder="금액" value="">
+	        </td>
 	    </tr>   
 	    <tr class="repeat-section_${'${index}'}">
 	        <th class="tableBth">이동출발장소</th>
@@ -302,10 +314,18 @@ function addDatesToTable(dates) {
 	        <th class="tableBth" colspan="3">비고</th>
 	    </tr>
 	    <tr class="repeat-section_${'${index}'}">
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_departurePlace" placeholder="장소" value=""></td>
-	        <td class="tableBtd" colspan="2"><input class="tInput" name="${'${date}'}_${'${index}'}_arrivalPlace" type="text" placeholder="장소" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_${'${index}'}_moveTime" style="text-align: center;" placeholder="예) 10분" value=""></td>
-	        <td class="tableBtd" colspan="3"><input class="tInput" name="${'${date}'}_${'${index}'}_moveDetail" type="text" placeholder="이동 관련 비고 사항" value=""></td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" type="text" name="departurePlace" placeholder="장소" value="">
+	        </td>
+	        <td class="tableBtd" colspan="2">
+	        	<input class="tInput" data-date="${date}" name="arrivalPlace" type="text" placeholder="장소" value="">
+	        </td>
+	        <td class="tableBtd">
+	        	<input class="tInput" data-date="${date}" type="text" name="moveTime" style="text-align: center;" placeholder="예) 10분" value="">
+    		</td>
+	        <td class="tableBtd" colspan="3">
+	        	<input class="tInput" data-date="${date}" name="$moveDetail" type="text" placeholder="이동 관련 비고 사항" value="">
+	        </td>
 	    </tr>
 	    <!-- 반복 부분 끝 -->
 	
@@ -345,11 +365,22 @@ function addDatesToTable(dates) {
 function tripDataInsert(){
 	
 	console.log("버튼클릭! ");
-	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
-
-	var jsonMemberData = JSON.stringify(formSerializeObject);
 	
-	console.log("jsonMemberData! >>", jsonMemberData);
+	var inputs = document.querySelectorAll('.newDiv');
+	inputs.forEach(function(input) {
+	    var date = input.getAttribute('data-id');
+	    console.log("여행 등록>> " ,date);
+	});
+
+
+
+	
+	
+	//var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
+
+	//var jsonMemberData = JSON.stringify(formSerializeObject);
+	
+	//console.log("jsonMemberData! >>", jsonMemberData);
 	
 	
 	/*

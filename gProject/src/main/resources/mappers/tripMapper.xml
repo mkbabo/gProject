@@ -62,6 +62,14 @@
 			    	tl_modDate
 		FROM 		trip_list
 		WHERE		tl_tripNo = #{tripNo}
-	</select>	  
+	</select>
+	
+	<!-- 여행 삭제 -->
+	<delete id="tripDelete">
+		DELETE 
+		FROM trip_list 
+		WHERE tl_tripNo = #{tripNo}
+	</delete>
+		  
   
   </mapper>

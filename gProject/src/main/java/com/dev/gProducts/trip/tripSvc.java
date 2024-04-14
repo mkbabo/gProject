@@ -56,6 +56,22 @@ public class tripSvc {
 		return resultMap;
 	}
 	
+	//여행 일정 삭제
+	public Map<String, Object> tripDelete(Map<String, Object> data) {
+		System.out.println("여행 일정 삭제 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int result = tripDao.tripDelete(data);
+		
+		if(result == 1) {
+			resultMap.put("code", "ok");
+		}else {
+			resultMap.put("code", "no");
+		}
+		
+		return resultMap;
+	}
+	
 	
 
 }
