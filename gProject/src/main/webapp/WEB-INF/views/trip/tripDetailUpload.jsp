@@ -175,9 +175,10 @@ $(document).ready(function(){
     const lastSchedule = $('#lastSchedule_'+num);
 
     repeatSection.each(function(index) {
-    	
+    	const currentTime = new Date().getTime(); // 현재 시간을 밀리초로 얻기
     	//console.log("ㅜㅜㅜㅜ >> " , index, $(this).html())
-        const newRow = $('<tr class=newDiv'+index+'></tr>').html($(this).html()).attr('data-id', index);
+        const newRow = $('<tr class=newDiv '+index+'></tr>').html($(this).html()).attr('data-id', index+currentTime);
+        console.log("data-id:", newRow.attr('data-id'));
         newRow.insertBefore(lastSchedule);
     });
 }
@@ -277,8 +278,8 @@ function addDatesToTable(dates) {
 	        <col width=10%>                                   
 	    </colgroup>    
 	
-	    <tr class="repeat-sectionDate table-containerDate" data-date="${date}">
-        	<th class="tableBth" colspan="7">${date}</th>
+	    <tr class="repeat-sectionDate table-containerDate" data-date="${'${date}'}">
+        	<th class="tableBth" colspan="7">${'${date}'}</th>
     	</tr>					
 	    <!-- 반복 부분 시작 -->
 	    <tr class="repeat-section_${'${index}'}">
@@ -289,7 +290,7 @@ function addDatesToTable(dates) {
 	    </tr>
 	    <tr class="repeat-section_${'${index}'}">
 	        <td class="tableBtd">
-	        	<input class="tInput place_${index}" data-date="${date}" data-index="${index}" type="text" name="place" placeholder="장소" value="" >
+	        	<input class="tInput place_${index}" data-date="${'${date}'}" data-index="${'${index}'}" type="text" name="place" placeholder="장소" value="" >
 	        </td>
 	        <td class="tableBtd">
 	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="startTime" placeholder="일정시작시간" value="">

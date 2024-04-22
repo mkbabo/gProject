@@ -143,7 +143,7 @@ function getList(){
                     '   <div style="margin-top: 1rem;"> 여행날짜 : '+ item.tl_startDate+' ~ '+ item.tl_endDate +'</div>'+
                     '   <div style="margin-top: 1rem;"> 여행 앨범명 : '+ item.tl_photoMenuNm +'</div>'+                    
                     '   <div style="margin-top: 1.5rem;">'+
-                    '	<input type="button" class="button kFont" onclick="photoBtn(\'' + item.tl_tripNo + '\')" value="Gallery">'+
+                    '	<input type="button" class="button kFont" onclick="photoBtn(\'' + item.tl_tripNo + '\')" value="앨범이동">'+
                     '	<input type="button" class="button active kFont" onclick="tripAddBtn(\'' + item.tl_tripNo + '\')" value="일정추가">'+ 
                     '</div>'+
                     '</div>';

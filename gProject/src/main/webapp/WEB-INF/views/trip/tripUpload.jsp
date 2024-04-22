@@ -40,7 +40,7 @@
         <!-- Contact -->
         <section id="contact">
 			<!-- Form -->
-			<div class="column" style="margin: auto;">
+			<div class="column" style="margin: auto; margin-bottom: 143px;">
 				<h2>planning a trip</h2>
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">
 					<div class="field half first kFont">
@@ -66,12 +66,13 @@
 					<div class="field kFont">
 						<label for="photoMenuNm">여행 앨범명</label>
 						<input class="kFont" name="photoMenuNm" id="photoMenuNm" type="text" placeholder="여행앨범이름">
+					</div>	
+					<div class="field half first kFont">
+						<input class="button active kFont" value="취소하기" type="button" style="" onclick="location.href='/tripList'">
 					</div>						
-					<ul class="actions" style="margin-top: 4.2rem; margin-bottom: 8rem;">
-						<li>
-							<input class="kFont" value="등록하기" class="button" type="button" onclick="tripWrite();">
-						</li>
-					</ul>
+					<div class="field half kFont" style="text-align: right;">
+						<input class="button kFont" value="등록하기" type="button" style="" onclick="tripWrite();">
+					</div>											
 				</form>
 			</div>
 
