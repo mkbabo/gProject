@@ -1,17 +1,23 @@
 package com.dev.gProducts.photo;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 @Service
 public class photoSvc {
 	
 	@Autowired
 	photoDao photoDao;
+	
+    @Value("${upload.dir}")
+    private String uploadDir;
 	
 	//여행 일정 목록
 	public List<Map<String, Object>> photoList() {
@@ -56,6 +62,53 @@ public class photoSvc {
 	}
 	
 	
+	//사진 삭제
+	public Map<String, Object> photoDelete(List<Map<String, Object>> data) {
+	    //System.out.println("여행 별 사진 목록 서비스!>> "+ data);
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    int deletedCount = 0;
+
+	    for (Map<String, Object> item : data) {
+	        String filename = item.get("filename").toString();
+	        String photoNo = item.get("photoNo").toString();
+	        String tripNo = item.get("tripNo").toString();
+	        
+	        //System.out.println("filename>> "+ filename);
+	        //System.out.println("photoNo>> "+ photoNo);
+	       // System.out.println("tripNo>> "+ tripNo);
+
+	        // 데이터베이스에서의 삭제
+	        int deleteResult = photoDao.photoDelete(photoNo);
+	        if (deleteResult > 0) {
+	            // 삭제 성공한 경우에만 파일 시스템에서의 삭제 수행
+	            Path uploadPath = Paths.get(uploadDir + "/" + tripNo+ "/" + filename);
+	            //System.out.println("uploadPath>> "+ uploadPath);
+	            File fileToDelete = uploadPath.toFile();
+	            if (fileToDelete.exists()) {
+	                if (fileToDelete.delete()) {
+	                    deletedCount++;
+	                } else {
+	                    // 파일 삭제 실패
+	                    resultMap.put("message", "사진이 삭제되지 않았습니다.");
+	                    return resultMap; // 파일 삭제 실패 시 즉시 반환
+	                }
+	            } else {
+	                // 파일이 존재하지 않음
+	                resultMap.put("message", "이미 삭제된 사진 입니다.");
+	                return resultMap; // 파일 삭제 실패 시 즉시 반환
+	            }
+	        } else {
+	            // 데이터베이스에서의 삭제 실패
+	            resultMap.put("message", "사진 삭제에 실패하였습니다.");
+	            return resultMap; // 파일 삭제 실패 시 즉시 반환
+	        }
+	    }
+
+	    // 결과 반환
+	    resultMap.put("message", deletedCount + "개의 사진을 삭제하였습니다.");
+	    return resultMap;
+	}	
 	
 	
 	

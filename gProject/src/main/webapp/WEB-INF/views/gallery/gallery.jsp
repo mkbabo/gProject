@@ -310,7 +310,8 @@ function photoDetailPage(tripNo) {
                     template +=
                         '<div class=" ">' +
                             '<div class="image-container">' + // 이미지와 체크박스를 포함하는 부모 요소
-                                '<input type="checkbox" id="mycheckbox' + index + '" class="photoCheckbox" data-tripno="' + item.pl_tripNo + '" data-filename="' + item.pl_photoFileNm + '">' +
+                                '<input type="checkbox" id="mycheckbox' + index + '" class="photoCheckbox"' +
+                                'data-tripno="' + item.pl_tripNo + '" data-photono="' + item.pl_photoNo + '"data-filename="' + item.pl_photoFileNm + '" >' +
                                 '<label for="mycheckbox' + index + '">' + // 체크박스에 대응하는 레이블
                                     '<div class="imageLink" data-toggle="modal" data-target="#imageModal" data-image="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '">' +
                                         '<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="367" height="450">' +
@@ -345,15 +346,73 @@ function photoDetailPage(tripNo) {
 
 // 삭제 버튼 클릭 시 선택된 이미지 삭제
 $('.imgDelete').click(function() {
+    console.log("확인!");
+    
+    // Array to hold selected data
+    var selectedData = [];
+    
+    $('.photoCheckbox:checked').each(function() {
+        var tripNo = $(this).data('tripno');
+        var photoNo = $(this).data('photono');
+        var filename = $(this).data('filename');
+        
+        // Add selected data to the array
+        selectedData.push({ tripNo: tripNo, photoNo: photoNo, filename: filename });
+        
+        // Log selected data
+        console.log("선택된 이미지 삭제:", tripNo, photoNo, filename);
+    });
+    
+    let reTripNo = selectedData[0].tripNo;
+    console.log("tripNo 삭제:", reTripNo);
+    
+    // Send selected data to server
+     $.ajax({
+        url: '/photoDelete',
+        type: 'POST',
+        contentType: 'application/json', // Set content type to JSON
+        data: JSON.stringify(selectedData), // Convert selectedData to JSON string
+        success: function(result) {
+            console.log("결과 리스트~~ >>", result); 
+            alert(result.message);
+            location.href="/gallery?tripNo="+reTripNo;
+            
+        }
+    }); 
+});
+
+
+
+
+/* $('.imgDelete').click(function() {
 	console.log("확인!");
     $('.photoCheckbox:checked').each(function() {
         var tripNo = $(this).data('tripno');
         var filename = $(this).data('filename');
+        
+        
+        
         // 여기에 선택된 이미지 삭제하는 코드 추가
         // 예: 서버로 삭제 요청 보내기 또는 UI에서 해당 이미지 제거
         console.log("선택된 이미지 삭제:", tripNo, filename);
+  
     });
-});
+    
+    $.ajax({
+        url: '/photoDelete',
+        type: 'POST',
+        dataType: 'json',
+        data: jsonData,
+        success: function(result) {
+            console.log("결과 리스트~~ >>", result);
+           
+        }
+    });
+    
+    
+    
+    
+}); */
 
 
 

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,6 +106,16 @@ public class photoCtl {
 	        System.out.println("여행 별 사진 목록 컨트롤!");
 
 	        List<Map<String, Object>> resultMap = photoSvc.photoSelectList(data);
+
+	        return resultMap;
+	    }
+	    
+		//선택 사진 삭제
+	    @PostMapping("/photoDelete")
+	    public Map<String, Object> photoDelete(@RequestBody List<Map<String, Object>> data) {
+	        System.out.println("여행 별 사진 목록 컨트롤!>> "+ data);
+
+	        Map<String, Object> resultMap = photoSvc.photoDelete(data);
 
 	        return resultMap;
 	    }

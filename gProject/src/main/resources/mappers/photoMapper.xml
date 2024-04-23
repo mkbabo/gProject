@@ -52,6 +52,12 @@
 		ORDER BY 	pl_photoNo DESC
 	</select> 	  
 	  
+	<!-- 사진 삭제  -->
+	<delete id="photoDelete" parameterType="string">  
+	    DELETE FROM photo_list
+	    WHERE pl_photoNo = #{photoNo}
+	</delete>
+ 
   
   
   
