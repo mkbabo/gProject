@@ -47,7 +47,8 @@ public class photoSvc {
 	        }
 	    
 	        
-	        // 결과 반환	        
+	        // 결과 반환
+	        resultMap.put("tripNo", tripNo);
 	        resultMap.put("message", result+"개의 사진 업로드를 성공하였습니다.");
 	        return resultMap;
 	

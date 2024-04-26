@@ -11,6 +11,7 @@
 	<groupId>com.dev</groupId>
 	<artifactId>GraduationProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>GraduationProject</name><!-- gProducts -->
 	<description>dev</description>
 	<properties>
@@ -47,6 +48,13 @@
 		    <artifactId>jackson-databind</artifactId>
 		</dependency>
 		
+		<!-- war -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		      <artifactId>spring-boot-starter-tomcat</artifactId>
+		      <scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
+		</dependency>
+		
 		<!-- jQuery-->
 		<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
 		<dependency>
@@ -59,6 +67,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+				<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>	
 				<!-- JSP 사용 -->
 		<dependency>

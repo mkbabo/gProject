@@ -11,8 +11,11 @@
 <meta http-equiv="Expires" content="0">
 
 
- <link rel="stylesheet" href="<c:url value='./css/main.css'/>">
-
+ <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- 
+<link rel="stylesheet" href="./css/main.css">
+ -->
 <!-- header  -->
 <jsp:include page="../include/header.jsp" />
 
@@ -25,7 +28,7 @@
 	
 	.uploadMenu {
 		display: grid; 
-		grid-template-columns: 1fr 1.8fr 1fr 1fr;
+		grid-template-columns: 1fr 1.5fr 0.4fr 0.4fr;
 	}
 	
 	#photoSelect{
@@ -72,7 +75,13 @@
 	    padding: 0;
 	    overflow: hidden;
 	    border: 0;
-	}	
+	}
+	
+	.photoCheckbox {
+    	width: 10px; /* 원하는 너비로 설정 */
+    	height: 10px; /* 원하는 높이로 설정 */
+	}
+		
 
 </style>
 
@@ -114,7 +123,12 @@
 					<input type="file" id="file" name="dataFileUpload" multiple onchange="displaySelectedFiles(this)">
 				</div>
 			<!-- 업로드 버튼 -->											
-			<input type="button" class="button active kfont" style="width: 50%; height: 2.75em;" onclick="dataInsert();" value="upload">
+			<div style="text-align: right;">
+				<input type="button" class="button active kFont" style="width: 90%; height: 2.75em;" onclick="dataInsert();" value="upload">
+			</div>
+			<div style="text-align: right;">
+				<input type="button" class="button kFont imgDelete" style="width: 90%; height: 2.75em; background-color: red;" value="선택삭제">
+			</div>
 		</div>
 	    
 			<div class="content photoGallery">
@@ -130,9 +144,23 @@
 			<div class="copyright">
 				Created by: <a href="#">HEO JI HYE</a> &
 				Design by: <a href="https://templated.co/">TEMPLATED.CO</a>
-			</div>		
+			</div>	
+			
+			
+<!-- 모달을 표시할 곳 -->
+<div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="" id="modalImage" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>			
+				
         
 <script type="text/javascript">
+
 $(document).ready(function(){
 	photoNmList();
 	selectBox();
@@ -169,7 +197,9 @@ function photoNmList(){
 	};
 	
 //select box 동적 생성
-function selectBox(){
+function selectBox(tripNo){
+	
+	console.log("tripNo selectBox >>", tripNo);
 	
 	$.ajax({
 	    url:'/photoList',
@@ -262,39 +292,133 @@ function selectBox(){
 
 
 //각 버튼 해당 이미지 보여주기	
-
 function photoDetailPage(tripNo) {
-	
-	console.log("번호 오니??? >", tripNo);
+    console.log("번호 오니??? >", tripNo);
 
-	let jsonData = { tripNo: tripNo }; // tripNo를 객체의 속성 이름으로 사용
-	console.log("jsonData >", jsonData);
-	 
-	//select box와 파일 input 초기화 필요
-		$.ajax({
-		    url:'/photoSelectList',
-		    type: 'GET',
-		    dataType: 'json',
-		    data: jsonData,
-	        success : function(result){
-	            console.log("결과 리스트~~ >>", result);	            
-	            var template = "";
-	            
-	            $.each(result, function(index, item) { //item.pl_photoFileNm
-	            	template += 
-	        		'<div class="media all place">'+
-	        	    	'<a href="" style="outline: 0px;">'+
-	        	    	'<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="450" height="450">'+
-	        	    	'</a>'+
-	        		'</div>';     
-	          });
+    let jsonData = { tripNo: tripNo };
+    console.log("jsonData >", jsonData);
+
+    //select box와 파일 input 초기화 필요
+    $(document).ready(function() {
+        $.ajax({
+            url: '/photoSelectList',
+            type: 'GET',
+            dataType: 'json',
+            data: jsonData,
+            success: function(result) {
+                console.log("결과 리스트~~ >>", result);
+                var template = "";
+
+                $.each(result, function(index, item) {
+                    template +=
+                        '<div class=" ">' +
+                            '<div class="image-container">' + // 이미지와 체크박스를 포함하는 부모 요소
+                                '<input type="checkbox" id="mycheckbox' + index + '" class="photoCheckbox"' +
+                                'data-tripno="' + item.pl_tripNo + '" data-photono="' + item.pl_photoNo + '"data-filename="' + item.pl_photoFileNm + '" >' +
+                                '<label for="mycheckbox' + index + '">' + // 체크박스에 대응하는 레이블
+                                    '<div class="imageLink" data-toggle="modal" data-target="#imageModal" data-image="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '">' +
+                                        '<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="367" height="450">' +
+                                    '</div>' +
+                                '</label>' +
+                            '</div>' +
+                        '</div>';
+                });
+
+                // 템플릿을 페이지에 추가
+                $('.photoGallery').empty().append(template);
+            }
+        });
+
+        // 이미지를 클릭하여 모달 창이 표시될 때에는 체크박스가 선택되지 않도록 처리
+        $(document).on('click', '.imageLink', function(e) {
+            e.preventDefault(); // 기본 동작 중지
+            e.stopPropagation(); // 이벤트 버블링 중지
+            // 모달 창 표시 코드 작성
+            var imageUrl = $(this).data('image');
+            $('#modalImage').attr('src', imageUrl);
+            $('#imageModal').modal('show'); // 모달 창 표시
+        });
+
+        // 체크박스를 클릭하여 선택되도록 처리
+        $(document).on('click', '.photoCheckbox', function(e) {
+            e.stopPropagation(); // 이벤트 버블링 중지
+        });
+    });
+}
+
+
+// 삭제 버튼 클릭 시 선택된 이미지 삭제
+$('.imgDelete').click(function() {
+    console.log("확인!");
+    
+    // Array to hold selected data
+    var selectedData = [];
+    
+    $('.photoCheckbox:checked').each(function() {
+        var tripNo = $(this).data('tripno');
+        var photoNo = $(this).data('photono');
+        var filename = $(this).data('filename');
+        
+        // Add selected data to the array
+        selectedData.push({ tripNo: tripNo, photoNo: photoNo, filename: filename });
+        
+        // Log selected data
+        console.log("선택된 이미지 삭제:", tripNo, photoNo, filename);
+    });
+    
+    let reTripNo = selectedData[0].tripNo;
+    console.log("tripNo 삭제:", reTripNo);
+    
+    // Send selected data to server
+     $.ajax({
+        url: '/photoDelete',
+        type: 'POST',
+        contentType: 'application/json', // Set content type to JSON
+        data: JSON.stringify(selectedData), // Convert selectedData to JSON string
+        success: function(result) {
+            console.log("결과 리스트~~ >>", result); 
+            alert(result.message);
+            location.href="/gallery?tripNo="+reTripNo;
+            
+        }
+    }); 
+});
+
+
+
+
+/* $('.imgDelete').click(function() {
+	console.log("확인!");
+    $('.photoCheckbox:checked').each(function() {
+        var tripNo = $(this).data('tripno');
+        var filename = $(this).data('filename');
+        
+        
+        
+        // 여기에 선택된 이미지 삭제하는 코드 추가
+        // 예: 서버로 삭제 요청 보내기 또는 UI에서 해당 이미지 제거
+        console.log("선택된 이미지 삭제:", tripNo, filename);
   
-	            // 템플릿을 페이지에 추가
-	            $('.photoGallery').empty().append(template);
-			}	
-		});
-	
-	}
+    });
+    
+    $.ajax({
+        url: '/photoDelete',
+        type: 'POST',
+        dataType: 'json',
+        data: jsonData,
+        success: function(result) {
+            console.log("결과 리스트~~ >>", result);
+           
+        }
+    });
+    
+    
+    
+    
+}); */
+
+
+
 
 
 
@@ -326,5 +450,11 @@ if (tripNo) {
 			<script src="js/skel.min.js"></script>
 			<script src="js/util.js"></script>
 			<script src="js/main.js"></script> -->
+			
+
+
+
+
+			
 </body>
 </html>

@@ -109,7 +109,7 @@
 		
 		<!-- Filters -->
 		<header>
-			<h1>Gallery</h1>	
+			<h1>Photo Album</h1>	
 			<div id="btnContainer"></div><!-- 앨범 버튼 동적 생성 -->			    
 	    </header>
 
@@ -209,7 +209,7 @@ function selectBox(){
 	        var selectBox = $('<select class="kFont" id="photoSelect"></select>');
 	        
 	     // "선택" 옵션 추가
-	        var defaultOption = $('<option value="">선택</option>');
+	        var defaultOption = $('<option value="">앨범명 선택</option>');
 	        selectBox.append(defaultOption);
 
 	        // 받은 JSON 데이터를 반복하여 select box에 옵션 추가
@@ -230,7 +230,7 @@ function selectBox(){
  function dataInsert(){
 	
 	 var formData = new FormData();
-
+	 
 	 // 여행번호 (선택된 값 가져오기)
 	 var selectedValue = $('#photoSelect').val();
 	 console.log("선택된 값:", selectedValue);
@@ -246,6 +246,21 @@ function selectBox(){
 	 }
 
 	 console.log("formData>>>", formData);
+	 
+	 //데이터 여부 확인
+	 if(selectedValue == null || selectedValue == ""){
+		 alert("등록할 앨범명을 선택해주세요.");
+		 return
+	 } 
+	 
+	 if(files.length == 0){
+		 alert("업로드할 사진을 입력해주세요.");
+		 return		 		 
+	 }
+	 
+	 
+	 //console.log("통과!");
+	 
 
 	
 	$.ajax({
@@ -257,13 +272,11 @@ function selectBox(){
 	    success: function (result) {
 	        console.log("성공>> ", result);
 	        alert(result.message);
-	        //location.href = "/data/dataSearch.do"; //페이지로 이동
+	        location.href = "gallery?tripNo="+result.tripNo; //페이지로 이동
 	        
 	        //사진 보여주기!
-	        photoDetailPage(selectedValue);
-	        
-	        
-
+	        //photoDetailPage(selectedValue);	        
+	      
 	    },
 	    error: function (request, status, error) {
 	        alert("실패");
