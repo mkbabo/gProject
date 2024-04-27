@@ -17,6 +17,8 @@ public class tripCtl {
 	
 	@Autowired
 	tripSvc tripSvc;
+
+/****************** 여행 목록 일정 ******************/	
 	
 	//여행 일정 추가
 	@RequestMapping(value = "/tripInsert", method = RequestMethod.POST)
@@ -66,5 +68,21 @@ public class tripCtl {
 		return resultMap;
 		
 	}	
+	
+/****************** 여행 상세 일정 ******************/
+	
+	//여행 상세 일정 추가
+	@RequestMapping(value = "/tripDetailInsert", method = RequestMethod.POST)
+	public Map<String, Object> tripDetailInsert (@RequestBody Map<String, Object> data) throws Exception {
+		
+		System.out.println("컨트롤 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = tripSvc.tripDetailInsert(data);
+		
+		return resultMap;
+		
+	}
+	
 	
 }

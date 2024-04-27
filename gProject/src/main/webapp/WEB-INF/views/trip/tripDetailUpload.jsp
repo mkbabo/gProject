@@ -19,7 +19,7 @@
 		font-style: normal;
 	}
 	
-		.tableB {
+	.tableB {
 	 	border-collapse : collapse;
 	 	width: 100%;
 	 	margin : auto;
@@ -33,20 +33,32 @@
 		text-align: center;	
 		height: 2.4rem;
 		padding-top: 0.5rem;
-		
+  		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
+    	border-right: none; /* 세로 줄 제거 */
 	}
 	
 	.tableBtd {	
 		font-size: 0.9rem;
-		font-weight: bold;
-		
-		/* height: 2.4rem; */
+		font-weight: bold;		
+		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
+    	border-right: none; /* 세로 줄 제거 */
 		
 	}
  
 	.tInput{
 		font-size: 0.9rem;	
 	}
+	
+	.date-button{
+	
+	margin: 2px;
+	}
+	
+	.date-button.active {
+    background-color: #007bff; /* 클릭된 경우의 배경색 */
+    color: #ffffff; /* 클릭된 경우의 텍스트색 */
+}
+	
 	 
 	
 </style>
@@ -69,77 +81,23 @@
 
         <!-- Contact -->
         <section id="contact">
-			<div class="" style="margin: auto;">
+			<div class="" style="margin-left: 10rem;">
 				<h2>planning a trip</h2>
 				
 				<div class="table-container"></div><!-- 공통 내용 -->
+				<div class="date-container"></div><!-- 날짜별 버튼 생성 -->
 				
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">				
-					<div id="parentContainer"></div><!-- 테이블 동적 생성 -->
+					<!-- <div id="parentContainer"></div> -->
+					
+					<table class="tableB t1 kFont" id="parentContainer"></table><!-- 테이블 동적 생성 -->
+					
+					
+					
 				</form>									
-<%-- 					<table class="tableB t1 kFont" id="sTable">
-					    <colgroup>
-					        <col width=20%>    
-					        <col width=10%>    
-					        <col width=10%>
-					        <col width=10%>    
-					        <col width=20%>      
-					        <col width=20%>        
-					        <col width=10%>                                   
-					    </colgroup>    
-					
-					    <tr class="repeat-sectionDate table-containerDate">
-					        <!-- <th class="tableBth" colspan="7">날짜</th> -->
-					    </tr>					
-					    <!-- 반복 부분 시작 -->
-					    <tr class="repeat-section">
-					        <th class="tableBth">장소</th>
-					        <th class="tableBth" colspan="2">일정 시간</th>
-					        <th class="tableBth" colspan="2">내용</th>
-					        <th class="tableBth" colspan="2">비용</th>
-					    </tr>
-					    <tr class="repeat-section">
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" ></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value=""></td>
-					        <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value=""></td>
-					    </tr>   
-					    <tr class="repeat-section">
-					        <th class="tableBth">이동출발장소</th>
-					        <th class="tableBth" colspan="2">이동도착장소</th>
-					        <th class="tableBth">소요시간</th>
-					        <th class="tableBth" colspan="3">비고</th>
-					    </tr>
-					    <tr class="repeat-section">
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value=""></td>
-					        <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="장소" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" style="text-align: center;" placeholder="예) 10분" value=""></td>
-					        <td class="tableBtd" colspan="3"><input class="tInput" type="text" placeholder="이동 관련 비고 사항" value=""></td>
-					    </tr>
-					    <!-- 반복 부분 끝 -->
-					
-					    <!-- 마지막 일정 -->
-					    <tr id="lastSchedule">
-					        <th class="tableBth">장소</th>
-					        <th class="tableBth" colspan="2">시간</th>
-					        <th class="tableBth" colspan="2">내용</th>
-					        <th class="tableBth" colspan="2">비용</th>
-					    </tr>
-					    <tr>
-					       	<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" ></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value=""></td>
-					        <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value=""></td>
-					        <td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value=""></td>
-					    </tr>   
-					</table>
-					
-					<button style="margin: 2rem 0rem;" onclick="addSchedule();">일정 추가</button>	
-					<button style="margin: 2rem 0rem;" onclick="removeLastSchedule();">일정 삭제</button>	 --%>	
-					
+
+					<button style="margin: 2rem 0rem;" onclick="addSchedule();">일정추가</button>
+					<button style="margin: 2rem 0rem;" onclick="removeSchedule();">일정삭제</button>
 					<button style="margin: 2rem 0rem;" onclick="tripDataInsert();">작성완료</button>
 				</div>
         	</section>
@@ -155,54 +113,15 @@
 
 			
 <script type="text/javascript">
-
-$(document).ready(function(){
     const urlParams = new URL(location.href).searchParams;
     const tripNo = urlParams.get('tripNo');
-
     console.log('tripNo Value:', tripNo);
-    tripData(tripNo);
-    
+
+  $(document).ready(function(){
+    tripData(tripNo);   
 });
 
-
-//일정 추가
- function addSchedule(num) {
-	
-	console.log("index >> " , num)
-	
-    const repeatSection = $('.repeat-section_'+num);
-    const lastSchedule = $('#lastSchedule_'+num);
-
-    repeatSection.each(function(index) {
-    	const currentTime = new Date().getTime(); // 현재 시간을 밀리초로 얻기
-    	//console.log("ㅜㅜㅜㅜ >> " , index, $(this).html())
-        const newRow = $('<tr class=newDiv '+index+'></tr>').html($(this).html()).attr('data-id', index+currentTime);
-        console.log("data-id:", newRow.attr('data-id'));
-        newRow.insertBefore(lastSchedule);
-    });
-}
-
-// 전역 변수로 일정 인덱스 선언
-//let scheduleIndex = 0;
-
-
-
-
-
-
-//일정 삭제
-function removeLastSchedule(num) {
-    const lastAddedRows = $('#sTable_'+num+' tr[data-id]').slice(-4);
-    if (lastAddedRows.length) {
-        lastAddedRows.remove();
-    } else {
-        alert('삭제할 행이 없습니다.');
-    }
-}
-
-
-
+/* ***************************** 기본 정보 가져오기 ************************************* */
 
 //여행 기본 정보 가져오기
 function tripData(tripNo){
@@ -239,12 +158,8 @@ function tripData(tripNo){
 
 //사이 날짜 가져오기
 function getAllDates(start, end) {
-	
-	var startDate = new Date(start);
-	var endDate = new Date(end);
-	
-	console.log("startDate >>" , startDate)
-	console.log("endDate >>" , endDate)
+    var startDate = new Date(start);
+    var endDate = new Date(end);
     var dates = [];
     var currentDate = new Date(startDate);
 
@@ -257,153 +172,198 @@ function getAllDates(start, end) {
         dates.push(formattedDate);
         currentDate.setDate(currentDate.getDate() + 1);
     }
-	
-    console.log("dates >>" , dates)
-    addDatesToTable(dates); // 생성된 날짜를 테이블에 추가
-    //return dates;
-}
 
-function addDatesToTable(dates) {
-    $.each(dates, function(index, date) {
-    	
-    	var table =`
-		<table class="tableB t1 kFont" id="sTable_${'${index}'}">
-	    <colgroup>
-	        <col width=20%>    
-	        <col width=10%>    
-	        <col width=10%>
-	        <col width=10%>    
-	        <col width=20%>      
-	        <col width=20%>        
-	        <col width=10%>                                   
-	    </colgroup>    
-	
-	    <tr class="repeat-sectionDate table-containerDate" data-date="${'${date}'}">
-        	<th class="tableBth" colspan="7">${'${date}'}</th>
-    	</tr>					
-	    <!-- 반복 부분 시작 -->
-	    <tr class="repeat-section_${'${index}'}">
-	        <th class="tableBth">장소</th>
-	        <th class="tableBth" colspan="2">일정 시간</th>
-	        <th class="tableBth" colspan="2">내용</th>
-	        <th class="tableBth" colspan="2">비용</th>
-	    </tr>
-	    <tr class="repeat-section_${'${index}'}">
-	        <td class="tableBtd">
-	        	<input class="tInput place_${index}" data-date="${'${date}'}" data-index="${'${index}'}" type="text" name="place" placeholder="장소" value="" >
-	        </td>
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="startTime" placeholder="일정시작시간" value="">
-	        </td>
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="LastTime" placeholder="일정끝시간" value="">
-	        </td>
-	        <td class="tableBtd" colspan="2">
-	        	<input class="tInput" data-date="${date}" data-index="${index}" name="travelDetail" type="text" placeholder="일정 관련 내용" value="">
-	        </td>
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="priceDetail" placeholder="비용 관련 내용" value="">
-	        </td>
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" data-index="${index}" type="text" name="price" placeholder="금액" value="">
-	        </td>
-	    </tr>   
-	    <tr class="repeat-section_${'${index}'}">
-	        <th class="tableBth">이동출발장소</th>
-	        <th class="tableBth" colspan="2">이동도착장소</th>
-	        <th class="tableBth">소요시간</th>
-	        <th class="tableBth" colspan="3">비고</th>
-	    </tr>
-	    <tr class="repeat-section_${'${index}'}">
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" type="text" name="departurePlace" placeholder="장소" value="">
-	        </td>
-	        <td class="tableBtd" colspan="2">
-	        	<input class="tInput" data-date="${date}" name="arrivalPlace" type="text" placeholder="장소" value="">
-	        </td>
-	        <td class="tableBtd">
-	        	<input class="tInput" data-date="${date}" type="text" name="moveTime" style="text-align: center;" placeholder="예) 10분" value="">
-    		</td>
-	        <td class="tableBtd" colspan="3">
-	        	<input class="tInput" data-date="${date}" name="$moveDetail" type="text" placeholder="이동 관련 비고 사항" value="">
-	        </td>
-	    </tr>
-	    <!-- 반복 부분 끝 -->
-	
-	    <!-- 마지막 일정 -->
-	    <tr id="lastSchedule_${'${index}'}">
-	        <th class="tableBth">장소</th>
-	        <th class="tableBth" colspan="2">시간</th>
-	        <th class="tableBth" colspan="2">내용</th>
-	        <th class="tableBth" colspan="2">비용</th>
-	    </tr>
-	    <tr>
-	       	<td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_place" placeholder="장소" value="" ></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_startTime" placeholder="일정시작시간" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_lLastTime" placeholder="일정끝시간" value=""></td>
-	        <td class="tableBtd" colspan="2"><input class="tInput" name="${'${date}'}_last_travelDetail" type="text" placeholder="일정 관련 내용" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_priceDetail" placeholder="비용 관련 내용" value=""></td>
-	        <td class="tableBtd"><input class="tInput" type="text" name="${'${date}'}_last_price" placeholder="금액" value=""></td>
-	    </tr>   
-	</table>
-	<button class="kFont" style="margin: 2rem 0rem;" onclick="addSchedule('${'${index}'}');">일정 추가</button>	
-	<button class="active kFont" style="margin: 2rem 0rem;" onclick="removeLastSchedule('${'${index}'}');">일정 삭제</button>
+    // 기존의 날짜 컨테이너 내용 지우기
+    $('.date-container').empty();
 
-    `;
-    	
-    // 생성된 테이블을 삽입할 부모 요소를 선택하여 테이블을 추가합니다.
-    $('#parentContainer').append(table);
-    	
+    // 각 날짜마다 버튼을 생성
+    $.each(dates, function(index, item) {
+        
+        var button = $('<button class="date-button"></button>').text(item);
+
+        // 버튼 클릭 이벤트
+        button.on('click', function() {
+            // 모든 버튼의 색상 초기화
+            $('.date-button').removeClass('active');
+
+            // 클릭된 버튼에 active 클래스를 추가하여 색상을 변경
+            $(this).addClass('active');
+
+            dataDetail(item);
+        });
+
+        // 버튼을 날짜 컨테이너에 추가
+        $('.date-container').append(button);
+
+        // 페이지가 처음 실행될 때 첫 번째 날짜 버튼을 클릭합니다.
+        if (index === 0) {
+            button.click();
+        }
     });
-    
-    
 }
-/* 	<button style="margin: 2rem 0rem;" onclick="addSchedule('${'${index}'} , ${'${date}'}');">일정 추가</button>	
-<button class="active" style="margin: 2rem 0rem;" onclick="removeLastSchedule('${'${index}'} , ${'${date}'}');">일정 삭제</button>	 */
 
 
-//여행 등록
+/* ***************************** 기본 정보 가져오기 끝 ************************************* */
+
+
+function dataDetail(item) {
+    console.log("item >> ", item); //날짜
+    console.log("일정 추가 버튼! index >> " , index);
+    
+    console.log('tripNo Value:', tripNo);
+   
+    
+    
+    $('#parentContainer').empty();
+
+    var table = '<tr class="repeat-sectionDate table-containerDate">' +
+                '<th class="tableBth" id ="dateInput" colspan="7">' + item + '</th>' +
+                '</tr>' +
+                
+                
+        	'<tr id="lastSchedule">' +
+    	        '<th class="tableBth">장소</th>' +
+    	        '<th class="tableBth" colspan="2">시간</th>' +
+    	        '<th class="tableBth" colspan="2">내용</th>' +
+    	        '<th class="tableBth" colspan="2">비용</th>' +
+    	    '</tr>' +
+    	    '<tr>' +
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" ' + 
+    	       		'id="'+tripNo+'_'+item+'_location_99" name="'+tripNo+'_'+item+'_location_99"></td> ' +
+    	        
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value="" ' +  
+    	       		'id="'+tripNo+'_'+item+'_startTime_99" name="'+tripNo+'_'+item+'_startTime_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="" ' +
+    	        	'id="'+tripNo+'_'+item+'_endTime_99" name="'+tripNo+'_'+item+'_endTime_99"></td>' +
+    	        
+    	        '<td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="" ' + 
+    	        	'id="'+tripNo+'_'+item+'_content_99" name="'+tripNo+'_'+item+'_content_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="" ' + 
+    	        	'id="'+tripNo+'_'+item+'_costContent_99" name="'+tripNo+'_'+item+'_costContent_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="" ' +
+    	        	'id="'+tripNo+'_'+item+'_amount_99" name="'+tripNo+'_'+item+'_amount_99"></td>' +
+    	    '</tr>';              
+                
+
+    $('#parentContainer').append(table);
+}
+
+
+
+
+//전역 변수로 index를 선언하고 1로 초기화
+var index = 1;
+
+// 일정 추가 버튼 클릭 시 실행되는 함수
+function addSchedule() {
+    console.log("일정 추가 버튼! index >> " , index);
+   
+    let date = $('#dateInput').text();
+    console.log("일정 추가 버튼! date >> " , date);
+    
+    console.log('tripNo Value:', tripNo);
+
+
+    // 새로운 일정 항목 HTML 생성
+    var newSchedule = `
+        <!-- 반복 부분 시작 -->
+        <tr class="repeat-section">
+            <th class="tableBth">장소</th>
+            <th class="tableBth" colspan="2">일정 시간</th>
+            <th class="tableBth" colspan="2">내용</th>
+            <th class="tableBth" colspan="2">비용</th>
+        </tr>
+        <tr class="repeat-section">
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_location_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_location_${'${index}'}"></td>
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}"></td>
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}"></td>
+            <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_content_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_content_${'${index}'}"></td>
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}"></td>
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}"></td>
+        </tr>   
+        <tr class="repeat-section">
+            <th class="tableBth">이동출발장소</th>
+            <th class="tableBth" colspan="2">이동도착장소</th>
+            <th class="tableBth">소요시간</th>
+            <th class="tableBth" colspan="3">비고</th>
+        </tr>
+        <tr class="repeat-section">
+            <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}"></td>
+            <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="장소" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}"></td>
+            <td class="tableBtd"><input class="tInput" type="text" style="text-align: center;" placeholder="예) 10분" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}"></td>
+            <td class="tableBtd" colspan="3"><input class="tInput" type="text" placeholder="이동 관련 비고 사항" value="" 
+            	id="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}"></td>
+        </tr>
+        <!-- 반복 부분 끝 -->
+    `;
+
+    // 새로운 일정 항목을 테이블에 추가
+    $('#lastSchedule').before(newSchedule);
+
+    // 일정을 추가할 때마다 index 값을 증가시킵니다.
+    index++;
+}
+
+
+//일정 삭제 버튼
+function removeSchedule() {
+    
+    if ($('.repeat-section').length === 0) {
+        alert("삭제할 일정이 없습니다.");
+    } else {
+        
+        for (let i = 0; i < 4; i++) {
+            $('.repeat-section').last().remove();
+        }
+    }
+}
+
+
+
+//작성 완료 버튼
 function tripDataInsert(){
 	
-	console.log("버튼클릭! ");
+	console.log("작성 완료");
 	
-	var inputs = document.querySelectorAll('.newDiv');
-	inputs.forEach(function(input) {
-	    var date = input.getAttribute('data-id');
-	    console.log("여행 등록>> " ,date);
-	});
-
-
-
+	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
+	var jsonMemberData = JSON.stringify(formSerializeObject);	
+	console.log("jsonMemberData! >>", jsonMemberData);
 	
-	
-	//var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
-
-	//var jsonMemberData = JSON.stringify(formSerializeObject);
-	
-	//console.log("jsonMemberData! >>", jsonMemberData);
-	
-	
-	/*
 	$.ajax({
 		type: 'POST',
 		contentType : 'application/json; charset=utf-8',
 		data : jsonMemberData,
-		url : '/tripInsert',
+		url : '/tripDetailInsert',
 		success : function(result){
 			
 			if(result.code == "ok"){
-				alert("새로운 여행이 추가되었습니다.");
-				location.href="/tripList"; // 로그인 성공 페이지로 이동
+				alert("새로운 여행 일정이 추가되었습니다.");
+				//location.href="/tripList"; // 로그인 성공 페이지로 이동
 			}else {
-				alert("여행 등록에 실패하였습니다.");
+				alert("여행 일정 등록에 실패하였습니다.");
 				return false;
 			}
 		}	
 	});
-	*/
 	
-}
+	
+	
+
+};
+
+
 
 
 

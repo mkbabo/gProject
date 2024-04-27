@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
   <mapper namespace="com.dev.gProducts.trip.tripDao">
   
+<!-- ****************** 여행 목록 일정 ****************** -->
 	  <!-- 계획추가 -->
 	  <insert id="tripInsert" parameterType="java.util.Map">  
 		  
@@ -70,6 +71,27 @@
 		FROM trip_list 
 		WHERE tl_tripNo = #{tripNo}
 	</delete>
+	
+	
+<!-- ****************** 여행 상세 일정 ****************** -->
+	  <!-- 여행 상세 일정 추가 -->
+	  <insert id="tripDetailInsert" parameterType="String">  
+		  
+		  INSERT INTO trip_detail (
+				td_detailNo,
+				td_detailData,
+				td_tripNo,
+				td_tripDate
+			)
+			VALUES(
+				#{detailNo},
+				#{detailData},
+				#{tripNo},
+				#{tripDate}
+			)
+			
+	  </insert>	
+	
 		  
   
   </mapper>

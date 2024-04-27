@@ -13,6 +13,8 @@ public class tripSvc {
 	@Autowired
 	tripDao tripDao;
 
+/****************** 여행 목록 일정 ******************/	
+	
 	//여행 일정 추가
 	public Map<String, Object> tripInsert(Map<String, Object> data) {
 		System.out.println("서비스 data >> "+ data);
@@ -68,6 +70,60 @@ public class tripSvc {
 		}else {
 			resultMap.put("code", "no");
 		}
+		
+		return resultMap;
+	}
+
+	
+	
+/****************** 여행 상세 일정 ******************/
+	//여행 상세 일정 추가
+	public Map<String, Object> tripDetailInsert(Map<String, Object> data) {
+		System.out.println("서비스 data >> "+ data);
+		
+		int keyCount = data.size();
+
+		int result = 0;
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		for (Map.Entry<String, Object> entry : data.entrySet()) {
+			
+		    String detailNo = entry.getKey(); //key
+		    String detailData = entry.getValue().toString();	
+		    
+		    System.out.println("서비스 key >> "+ detailNo);
+		    System.out.println("서비스 value >> "+ detailData);
+			
+		    // 키를 '_' 기준으로 분리하여 tripNo와 tripDate 추출
+		    String[] keyParts = detailNo.split("_");
+		    System.out.println("서비스 keyParts.length >> "+ keyParts.length);
+		    
+		    if (keyParts.length == 5) { // 적절한 키 형식이어야 함을 확인
+		        String tripNo = keyParts[0]+"_"+keyParts[1];
+		        String tripDate = keyParts[2];
+		        
+			    System.out.println("서비스 tripNo >> "+ tripNo);
+			    System.out.println("서비스 tripDate >> "+ tripDate);
+		        
+				result += tripDao.tripDetailInsert(detailNo, detailData, tripNo, tripDate);
+
+		    } else {
+		        
+		        System.out.println("올바르지 않은 키 형식: " + detailNo);
+		    }		    
+
+		}
+
+		System.out.println("result >> "+ result);
+		System.out.println("키 값의 개수: " + keyCount);
+
+		if(result == keyCount) {
+			resultMap.put("code", "ok");
+		}else {
+			resultMap.put("code", "no");;
+		}
+		
 		
 		return resultMap;
 	}
