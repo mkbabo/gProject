@@ -13,6 +13,14 @@
 <jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
+
+/* 미디어 쿼리를 사용하여 화면 너비가 600px 이상인 경우에만 테이블의 너비를 600px로 설정 */
+@media only screen and (min-width: 600px) {
+    .tableB {
+        width: 100%; /* 화면 너비의 600px를 사용 */
+    }
+}
+    
 	.kFont {
 		font-family: "Gowun Dodum", sans-serif;
 		font-weight: 400;
@@ -20,44 +28,56 @@
 	}
 	
 	.tableB {
-	 	border-collapse : collapse;
-	 	width: 100%;
-	 	margin : auto;
-	 	margin-top : 20px;
-	} 	
-	
+	    border-collapse: collapse;
+	    width: 1300px; /* 처음 너비를 1300px로 설정 */
+	    margin: auto;
+	    margin-top: 20px;	    
+	} 
+
 	.tableBth {
-		/* background-color: #0dcaf0; */
 		font-size: 0.9rem;
 		font-weight: bold;
 		text-align: center;	
 		height: 2.4rem;
-		padding-top: 0.5rem;
-  		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
-    	border-right: none; /* 세로 줄 제거 */
+  		padding-top: 0.5rem;  		
+   		border-left: 1px black solid;
+		border-right: 1px black solid;;    	
 	}
 	
 	.tableBtd {	
 		font-size: 0.9rem;
 		font-weight: bold;		
-		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
-    	border-right: none; /* 세로 줄 제거 */
+    	text-align: center;
+    	background-color: white;   	
+    	border-left: 1px black solid;
+		border-right: 1px black solid;		
+	}
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	
+	table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}	
+	
+	.firstTh{
+		background-color: #E8E7D2; /* #E3E2B4 #E5C1C5 #C3E2DD #6ECEDA */	
+	}
+	
+	.lastTh{
+		background-color: #D5E1DF; /*#BFC8D7 #C3E2DD #6ECEDA */	
+	}
 		
+	.repeat-sectionDate {
+	    border-top: none; /* 맨 위 행의 상단 테두리 제거 */ 
+	    	   
 	}
- 
-	.tInput{
-		font-size: 0.9rem;
-		text-align: center;
-		border: 0px;
-	}
-	
-	.tInput:focus {
-	outline: none; !important;
-	}
-	
+
 	.date-button{
-	
-	margin: 2px;
+		margin: 2px;
 	}
 	
 	.date-button.active {
@@ -96,7 +116,8 @@
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">				
 					<!-- <div id="parentContainer"></div> -->
 					
-					<table class="tableB t1 kFont" id="parentContainer"></table><!-- 테이블 동적 생성 -->
+					<table class="tableB t1 kFont" id="parentContainer">					
+					</table><!-- 테이블 동적 생성 -->
 					
 					
 					
@@ -262,7 +283,17 @@ function dataDetail(item) {
             
             var table = '';
             
-            table += '<tr class="repeat-sectionDate table-containerDate">' +
+            table += '<colgroup>'+
+				        '<col width=20%>'+    
+				        '<col width=10%>'+    
+				        '<col width=10%>'+
+				        '<col width=10%>'+    
+				        '<col width=20%>'+      
+				        '<col width=20%>'+        
+				        '<col width=10%>'+                                   
+				    '</colgroup>'+  
+            
+             '<tr class="repeat-sectionDate table-containerDate">' +
             '<th class="tableBth" id ="dateInput" colspan="7">' + item + '</th>' +
             '</tr>' ;
             
@@ -291,64 +322,35 @@ function dataDetail(item) {
         
                 
                 table += '<tr class="repeat-section">' +
-	                '<th class="tableBth">장소</th>' +
-	                '<th class="tableBth" colspan="2">일정 시간</th>' +
-	                '<th class="tableBth" colspan="2">내용</th>' +
-	                '<th class="tableBth" colspan="2">비용</th>' +
+	                '<th class="tableBth firstTh">장소</th>' +
+	                '<th class="tableBth firstTh" colspan="2">일정 시간</th>' +
+	                '<th class="tableBth firstTh" colspan="2">내용</th>' +
+	                '<th class="tableBth firstTh" colspan="2">비용</th>' +
                 '</tr>' +
                 '<tr class="repeat-section">' +
                 
-//                 '<td class="tableBtd">' +
-//                 	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_location_' + i + '"' +
-//                 	'value="' + transformedData[location2] + '" name="' + tripNo + '_' + item + '_location_' + i + '"></td>' +
-                '<td class="tableBtd">' + transformedData[location2] + '</td>' +
-                	
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_startTime_' + i + '"' + 
-                		'value="' + transformedData[startTime2] + '" name="' + tripNo + '_' + item + '_startTime_' + i + '"></td>' +
-                
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly"" id="' + tripNo + '_' + item + '_endTime_' + i + '"' + 
-                	'value="' + transformedData[endTime2] + '" name="' + tripNo + '_' + item + '_endTime_' + i + '"></td>' +
-                
-                '<td class="tableBtd" colspan="2">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_content_' + i + '"' + 
-                	'value="' + transformedData[content2] + '" name="' + tripNo + '_' + item + '_content_' + i + '"></td>' +
-                
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_costContent_' + i + '"' + 
-                	'value="' + transformedData[costContent2] + '" name="' + tripNo + '_' + item + '_costContent_' + i + '"></td>' +
-                
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_amount_' + i + '"' + 
-                	'value="' + transformedData[amount2] + '" name="' + tripNo + '_' + item + '_amount_' + i + '"></td>' +
+	                '<td class="tableBtd">' + transformedData[location2] + '</td>' +
+	                '<td class="tableBtd">' + transformedData[startTime2] + '</td>' +
+	                '<td class="tableBtd">' + transformedData[endTime2] + '</td>' +
+	                '<td class="tableBtd" colspan="2">' + transformedData[content2] + '</td>' +
+	                '<td class="tableBtd">' + transformedData[costContent2] + '</td>' +
+	                '<td class="tableBtd">' + transformedData[amount2] + '</td>' +                
                 
                 '</tr>'+    
             	
     	        '<tr class="repeat-section">' +
-	    	        '<th class="tableBth">이동출발장소</th>' +
-	    	        '<th class="tableBth" colspan="2">이동도착장소</th>' +
-	    	        '<th class="tableBth">소요시간</th>' +
-	    	        '<th class="tableBth" colspan="3">비고</th>' +
+	    	        '<th class="tableBth lastTh">이동출발장소</th>' +
+	    	        '<th class="tableBth lastTh" colspan="2">이동도착장소</th>' +
+	    	        '<th class="tableBth lastTh">소요시간</th>' +
+	    	        '<th class="tableBth lastTh" colspan="3">비고</th>' +
     	    	'</tr>'+            	
             	
                 '<tr class="repeat-section">' +
                 
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_departureLocation_' + i + '"' +
-                	'value="' + transformedData[departureLocation2] + '" name="' + tripNo + '_' + item + '_departureLocation_' + i + '"></td>' +
-                
-                	'<td class="tableBtd" colspan="2">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_arrivalLocation_' + i + '"' + 
-                		'value="' + transformedData[arrivalLocation2] + '" name="' + tripNo + '_' + item + '_arrivalLocation_' + i + '"></td>' +
-                
-                '<td class="tableBtd">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_requiredTime_' + i + '"' + 
-                	'value="' + transformedData[requiredTime2] + '" name="' + tripNo + '_' + item + '_requiredTime_' + i + '"></td>' +
-                
-                '<td class="tableBtd" colspan="3">' +
-                	'<input class="tInput" type="text" readonly="readonly" id="' + tripNo + '_' + item + '_remark_' + i + '"' + 
-                	'value="' + transformedData[remark2] + '" name="' + tripNo + '_' + item + '_remark_' + i + '"></td>' +
+	                '<td class="tableBtd">' + transformedData[departureLocation2] + '</td>' +
+	                '<td class="tableBtd" colspan="2">' + transformedData[arrivalLocation2] + '</td>' +
+	                '<td class="tableBtd">' + transformedData[requiredTime2] + '</td>' +
+	                '<td class="tableBtd" colspan="3">' + transformedData[remark2] + '</td>' +                
 
                 '</tr>';   	    	
             }           
@@ -356,29 +358,18 @@ function dataDetail(item) {
 
        //마지막 99 리스트만!
 	   table +='<tr id="lastSchedule">' +
-		        '<th class="tableBth">장소</th>' +
-		        '<th class="tableBth" colspan="2">시간</th>' +
-		        '<th class="tableBth" colspan="2">내용</th>' +
-		        '<th class="tableBth" colspan="2">비용</th>' +
+		        '<th class="tableBth firstTh">장소</th>' +
+		        '<th class="tableBth firstTh" colspan="2">시간</th>' +
+		        '<th class="tableBth firstTh" colspan="2">내용</th>' +
+		        '<th class="tableBth firstTh" colspan="2">비용</th>' +
 		    '</tr>' +
-		    '<tr>' +
-		       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="'+transformedData99.location_99+'" ' + 
-		       		'id="'+tripNo+'_'+item+'_location_99" name="'+tripNo+'_'+item+'_location_99"></td> ' +
-		        
-		       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간"  value="'+transformedData99.startTime_99+'" ' +  
-		       		'id="'+tripNo+'_'+item+'_startTime_99" name="'+tripNo+'_'+item+'_startTime_99"></td>' +
-		        
-		        '<td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="'+transformedData99.endTime_99+'" ' +
-		        	'id="'+tripNo+'_'+item+'_endTime_99" name="'+tripNo+'_'+item+'_endTime_99"></td>' +
-		        
-		        '<td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="'+transformedData99.content_99+'" ' + 
-		        	'id="'+tripNo+'_'+item+'_content_99" name="'+tripNo+'_'+item+'_content_99"></td>' +
-		        
-		        '<td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="'+transformedData99.costContent_99+'" ' + 
-		        	'id="'+tripNo+'_'+item+'_costContent_99" name="'+tripNo+'_'+item+'_costContent_99"></td>' +
-		        
-		        '<td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="'+transformedData99.amount_99+'" ' +
-		        	'id="'+tripNo+'_'+item+'_amount_99" name="'+tripNo+'_'+item+'_amount_99"></td>' +
+		    '<tr>' +		    
+	            '<td class="tableBtd">' + transformedData99.location_99 + '</td>' +
+	            '<td class="tableBtd">' + transformedData99.startTime_99 + '</td>' +
+	            '<td class="tableBtd">' + transformedData99.endTime_99 + '</td>' +
+	            '<td class="tableBtd" colspan="2">' + transformedData99.content_99 + '</td>' +
+	            '<td class="tableBtd">' + transformedData99.costContent_99 + '</td>' +
+	            '<td class="tableBtd">' + transformedData99.amount_99 + '</td>' + 		    
 		    '</tr>'; 
 
 			$('#parentContainer').append(table);

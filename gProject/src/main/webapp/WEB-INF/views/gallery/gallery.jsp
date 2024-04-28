@@ -124,10 +124,10 @@
 				</div>
 			<!-- 업로드 버튼 -->											
 			<div style="text-align: right;">
-				<input type="button" class="button active kFont" style="width: 90%; height: 2.75em;" onclick="dataInsert();" value="upload">
+				<input type="button" class="button active kFont" style="width: 90%; height: 2.75em; background-color: #83B1C9;" onclick="dataInsert();" value="upload">
 			</div>
 			<div style="text-align: right;">
-				<input type="button" class="button kFont imgDelete" style="width: 90%; height: 2.75em; background-color: red;" value="선택삭제">
+				<input type="button" class="button kFont imgDelete" style="width: 90%; height: 2.75em; background-color: #B97687;" value="선택삭제">
 			</div>
 		</div>
 	    

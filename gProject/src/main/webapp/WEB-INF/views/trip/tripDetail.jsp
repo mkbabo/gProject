@@ -27,48 +27,57 @@
 		font-style: normal;
 	}
 	
-.tableB {
-    border-collapse: collapse;
-    width: 1300px; /* 처음 너비를 1300px로 설정 */
-    margin: auto;
-    margin-top: 20px;
-} 	
-	
+	.tableB {
+	    border-collapse: collapse;
+	    width: 1300px; /* 처음 너비를 1300px로 설정 */
+	    margin: auto;
+	    margin-top: 20px;	    
+	} 
+
 	.tableBth {
-		/* background-color: #0dcaf0; */
 		font-size: 0.9rem;
 		font-weight: bold;
 		text-align: center;	
 		height: 2.4rem;
-		padding-top: 0.5rem;
-  		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
-    	border-right: none; /* 세로 줄 제거 */
+  		padding-top: 0.5rem;  		
+   		border-left: 1px black solid;
+		border-right: 1px black solid;;    	
 	}
 	
 	.tableBtd {	
 		font-size: 0.9rem;
 		font-weight: bold;		
-		border-bottom: 1px solid black; /* 가로 줄에만 테두리 추가 */
-    	border-right: none; /* 세로 줄 제거 */
-    	
     	text-align: center;
-    	color: red;
+    	background-color: white;   	
+    	border-left: 1px black solid;
+		border-right: 1px black solid;		
+	}
+	
+	table th:first-child,
+	table td:first-child {
+		border-left: 0;
+	}
+	
+	table th:last-child,
+	table td:last-child {
+		border-right: 0;
+	}	
+	
+	.firstTh{
+		background-color: #E8E7D2; /* #E3E2B4 #E5C1C5 #C3E2DD #6ECEDA */	
+	}
+	
+	.lastTh{
+		background-color: #D5E1DF; /*#BFC8D7 #C3E2DD #6ECEDA */	
+	}
 		
+	.repeat-sectionDate {
+	    border-top: none; /* 맨 위 행의 상단 테두리 제거 */ 
+	    	   
 	}
- 
-	.tInput{
-		font-size: 0.9rem;
-		text-align: center;
-		border: 0px;
-	}
-	
-	.tInput:focus {
-	outline: none; !important;
-	}
-	
+
 	.date-button{
-	
-	margin: 2px;
+		margin: 2px;
 	}
 	
 	.date-button.active {
@@ -107,14 +116,15 @@
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">				
 					<!-- <div id="parentContainer"></div> -->
 					
-					<table class="tableB t1 kFont" id="parentContainer"></table><!-- 테이블 동적 생성 -->
-					
-					
-					
-				</form>			
-					<button style="margin: 2rem 0rem;" onclick="addSchedule();">일정등록</button>
+					<table class="tableB t1 kFont" id="parentContainer">					
+					</table><!-- 테이블 동적 생성 -->
+
+				</form>	
+				<div class="btn-container"></div><!-- 버튼 생성 -->
+						
+<!-- 					<button style="margin: 2rem 0rem;" onclick="addSchedule();">일정등록</button>
 					<button style="margin: 2rem 0rem;" onclick="updateSchedule();">일정수정</button>
-					<button style="margin: 2rem 0rem;" onclick="removeSchedule();">일정삭제</button>
+					<button style="margin: 2rem 0rem;" onclick="removeSchedule();">일정삭제</button> -->
 				</div>
         	</section>
 	
@@ -240,7 +250,10 @@ function dataDetail(item) {
 		success : function(result){
 			
             console.log("전체 글 결과 리스트 >>", result);
+            console.log("전체 글 결과 갯수! >>", result.length);
             
+            if(result.length != 0){
+  
             // 변환된 데이터를 저장할 빈 객체 생성
             let transformedData = {};
             let transformedData99 = {};
@@ -270,10 +283,21 @@ function dataDetail(item) {
             console.log("변환된 데이터_99 >>", transformedData99);
             
             $('#parentContainer').empty();
+            $('.btn-container').empty();
             
             var table = '';
             
-            table += '<tr class="repeat-sectionDate table-containerDate">' +
+            table += '<colgroup>'+
+				        '<col width=20%>'+    
+				        '<col width=10%>'+    
+				        '<col width=10%>'+
+				        '<col width=10%>'+    
+				        '<col width=20%>'+      
+				        '<col width=20%>'+        
+				        '<col width=10%>'+                                   
+				    '</colgroup>'+  
+            
+             '<tr class="repeat-sectionDate table-containerDate">' +
             '<th class="tableBth" id ="dateInput" colspan="7">' + item + '</th>' +
             '</tr>' ;
             
@@ -302,10 +326,10 @@ function dataDetail(item) {
         
                 
                 table += '<tr class="repeat-section">' +
-	                '<th class="tableBth">장소</th>' +
-	                '<th class="tableBth" colspan="2">일정 시간</th>' +
-	                '<th class="tableBth" colspan="2">내용</th>' +
-	                '<th class="tableBth" colspan="2">비용</th>' +
+	                '<th class="tableBth firstTh">장소</th>' +
+	                '<th class="tableBth firstTh" colspan="2">일정 시간</th>' +
+	                '<th class="tableBth firstTh" colspan="2">내용</th>' +
+	                '<th class="tableBth firstTh" colspan="2">비용</th>' +
                 '</tr>' +
                 '<tr class="repeat-section">' +
                 
@@ -319,10 +343,10 @@ function dataDetail(item) {
                 '</tr>'+    
             	
     	        '<tr class="repeat-section">' +
-	    	        '<th class="tableBth">이동출발장소</th>' +
-	    	        '<th class="tableBth" colspan="2">이동도착장소</th>' +
-	    	        '<th class="tableBth">소요시간</th>' +
-	    	        '<th class="tableBth" colspan="3">비고</th>' +
+	    	        '<th class="tableBth lastTh">이동출발장소</th>' +
+	    	        '<th class="tableBth lastTh" colspan="2">이동도착장소</th>' +
+	    	        '<th class="tableBth lastTh">소요시간</th>' +
+	    	        '<th class="tableBth lastTh" colspan="3">비고</th>' +
     	    	'</tr>'+            	
             	
                 '<tr class="repeat-section">' +
@@ -338,10 +362,10 @@ function dataDetail(item) {
 
        //마지막 99 리스트만!
 	   table +='<tr id="lastSchedule">' +
-		        '<th class="tableBth">장소</th>' +
-		        '<th class="tableBth" colspan="2">시간</th>' +
-		        '<th class="tableBth" colspan="2">내용</th>' +
-		        '<th class="tableBth" colspan="2">비용</th>' +
+		        '<th class="tableBth firstTh">장소</th>' +
+		        '<th class="tableBth firstTh" colspan="2">시간</th>' +
+		        '<th class="tableBth firstTh" colspan="2">내용</th>' +
+		        '<th class="tableBth firstTh" colspan="2">비용</th>' +
 		    '</tr>' +
 		    '<tr>' +		    
 	            '<td class="tableBtd">' + transformedData99.location_99 + '</td>' +
@@ -353,9 +377,22 @@ function dataDetail(item) {
 		    '</tr>'; 
 
 			$('#parentContainer').append(table);
-		}
+		
+            // 수정하기와 삭제하기 버튼 생성
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="updateSchedule();">일정수정</button>');
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #B97687;" onclick="removeSchedule();">일정삭제</button>');
+        } else {
+            // 결과 데이터의 길이가 0이면 등록하기 버튼만 생성
+            $('#parentContainer').empty();
+            var table = '일정을 입력해주세요!';
+            $('#parentContainer').append(table);
+            $('.btn-container').empty();
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule();">일정등록</button>');
+        }
+            
+	}
 	
-	});   
+});   
     
 } 
 /* 버튼 이동 */						
