@@ -34,7 +34,12 @@ public class pageController {
 		return "trip/tripDetailUpload";	
 	}	
 	
-
+	//tripDetail 이동
+	@RequestMapping(value = "/tripDetail")
+	public String tripDetail() {
+		return "trip/tripDetail";	
+	}
+	
 	/*photo gallery Page*/
 	
 	//gallery 이동

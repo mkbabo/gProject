@@ -22,9 +22,9 @@ public interface tripDao {
 
 	
 	/****************** 여행 상세 일정 ******************/
-	
-	//public int tripDetailInsert(String data);					//여행 상세 일정 추가
 
-	public int tripDetailInsert(String detailNo, String detailData, String tripNo, String tripDate);
+	public int tripDetailInsert(String detailNo, String detailData, String tripNo, String tripDate); //여행 상세 일정 추가
+
+	public List<Map<String, Object>> tripDetailSelect(Map<String, Object> data);		//여행 상세 일정 조회
 	
 }

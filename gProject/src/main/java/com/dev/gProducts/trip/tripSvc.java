@@ -46,7 +46,7 @@ public class tripSvc {
 		return resultMap;
 	}
 
-	//tripData
+	//여행 일정 조회
 	public Map<String, Object> tripData(Map<String, Object> data) {
 		
 		System.out.println("여행 일정 조회 서비스 data >> "+ data);
@@ -127,6 +127,18 @@ public class tripSvc {
 		
 		return resultMap;
 	}
+
+	//여행 상세 일정 조회
+	public List<Map<String, Object>> tripDetailSelect(Map<String, Object> data) {
+	
+		System.out.println("여행 일정 조회 서비스 data >> "+ data);
+		
+		List<Map<String, Object>> resultMap = tripDao.tripDetailSelect(data);
+		
+		System.out.println("resultMap 서비스 tripDetail >> "+ resultMap);
+		
+		return resultMap;
+}
 	
 	
 

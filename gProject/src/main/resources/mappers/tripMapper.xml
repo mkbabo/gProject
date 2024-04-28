@@ -91,6 +91,18 @@
 			)
 			
 	  </insert>	
+	  
+	<!-- 여행 목록 -->
+	<select id="tripDetailSelect" resultType="java.util.Map">
+		SELECT		td_detailNo,
+					td_detailData,
+					td_tripNo,
+					td_tripDate
+		FROM 		trip_detail
+		WHERE 		td_tripNo = #{tripNo}
+		AND 		td_tripDate = #{tripDate}
+	</select>	  
+	  
 	
 		  
   

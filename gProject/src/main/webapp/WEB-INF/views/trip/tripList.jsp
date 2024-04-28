@@ -15,7 +15,7 @@
 <style type="text/css">
 
 .tripList {
-	margin-bottom: 5rem;
+	margin-bottom: 2rem;
 	padding : 1rem;
 	border: 2px solid #868e96;
 	border-radius: 3px;
@@ -31,6 +31,8 @@
 		font-weight: 400;
 		font-style: normal;
 	}
+	
+
 
 </style>
 
@@ -55,10 +57,11 @@
 	    <section>
 	     	<div class="inner" style="background-color: white;">
 		        <header>
-		        	<p>
+		        	<div style="margin-bottom: 1rem;">
 		        		<span style="font-size: 2em; font-weight: bold; ">Travel Plan List</span> 
-		        		<a href="#" class="button active" style="margin-left: 79%" onclick="location.href='tripUpload'">upload</a>
-		        	</p>
+		        		<!-- <a href="#" class="button active" style="margin-left: 79%" onclick="location.href='tripUpload'">upload</a> -->
+		        		<button class="button active uploadBtn" style="float: right; padding: 0 2em;" onclick="location.href='tripUpload'">upload</button>
+		        	</div>
 		        </header>
 		        
 	         		<section class="columns double table-container">
@@ -144,7 +147,7 @@ function getList(){
                     '   <div style="margin-top: 1rem;"> 여행 앨범명 : '+ item.tl_photoMenuNm +'</div>'+                    
                     '   <div style="margin-top: 1.5rem;">'+
                     '	<input type="button" class="button kFont" onclick="photoBtn(\'' + item.tl_tripNo + '\')" value="앨범이동">'+
-                    '	<input type="button" class="button active kFont" onclick="tripAddBtn(\'' + item.tl_tripNo + '\')" value="일정추가">'+ 
+                    '	<input type="button" class="button active kFont" onclick="tripAddBtn(\'' + item.tl_tripNo + '\')" value="일정보기">'+ 
                     '</div>'+
                     '</div>';
             });
@@ -164,7 +167,7 @@ function detailPage(tripNo){
 function tripAddBtn(tripNo){
 	
 	console.log("tripNo >> " , tripNo)
-	location.href="/tripDetailUpload?tripNo="+tripNo;
+	location.href="/tripDetail?tripNo="+tripNo;
 	
 	
 }

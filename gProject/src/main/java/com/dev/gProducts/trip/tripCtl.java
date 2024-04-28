@@ -84,5 +84,18 @@ public class tripCtl {
 		
 	}
 	
+	//여행 상세 일정 조회
+    @RequestMapping(value = "/tripDetailSelect", method = RequestMethod.GET)
+    public List<Map<String, Object>> tripDetailSelect (@RequestParam Map<String, Object> data) {
+        System.out.println("여행 일정 목록 컨트롤");
+
+        List<Map<String, Object>> resultMap = tripSvc.tripDetailSelect(data);
+        
+        System.out.println("resultMap 컨트롤 tripDetail >> "+ resultMap);
+        
+        return resultMap;
+    }	
+	
+	
 	
 }

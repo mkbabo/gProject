@@ -13,7 +13,7 @@
 
 .img-container {
     width: 400px; /* 원하는 너비 */
-    height: 280px; /* 원하는 높이 */
+    height: 250px; /* 원하는 높이 */
 }
 
 .img-container img {
