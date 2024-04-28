@@ -327,7 +327,7 @@ function photoDetailPage(tripNo) {
                                 'data-tripno="' + item.pl_tripNo + '" data-photono="' + item.pl_photoNo + '"data-filename="' + item.pl_photoFileNm + '" >' +
                                 '<label for="mycheckbox' + index + '">' + // 체크박스에 대응하는 레이블
                                     '<div class="imageLink" data-toggle="modal" data-target="#imageModal" data-image="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '">' +
-                                        '<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="367" height="450">' +
+                                        '<img src="/fileUpload/' + item.pl_tripNo + '/' + item.pl_photoFileNm + '" alt="" title="" width="321" height="320">' +
                                     '</div>' +
                                 '</label>' +
                             '</div>' +
