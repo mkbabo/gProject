@@ -81,7 +81,25 @@
     	width: 10px; /* 원하는 너비로 설정 */
     	height: 10px; /* 원하는 높이로 설정 */
 	}
+	
+/* 글자 애니메이션 효과 */	
 		
+.blink {
+	  color: #f35626;
+	  background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: transparent;
+	  -webkit-animation: hue 10s infinite linear;
+}
+
+@-webkit-keyframes hue {
+  from {
+    -webkit-filter: hue-rotate(0deg);
+  }
+  to {
+    -webkit-filter: hue-rotate(-360deg);
+  }
+}	
 
 </style>
 
@@ -134,6 +152,7 @@
 			<div class="content photoGallery">
 			
 			  <!-- 사진 위치! -->
+			  <span class="blink" style="font-weight: bold; "> &nbsp; <i class="fa-solid fa-camera-retro"></i> &nbsp; 보고싶은 앨범 버튼 클릭 해주세요. </span>
 				
 			</div>		    
 		</div>

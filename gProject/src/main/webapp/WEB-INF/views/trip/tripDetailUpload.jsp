@@ -58,6 +58,11 @@
     background-color: #007bff; /* 클릭된 경우의 배경색 */
     color: #ffffff; /* 클릭된 경우의 텍스트색 */
 }
+
+.date-button:not(.active) {
+    pointer-events: none; /* 활성화되지 않은 버튼에게 마우스 이벤트 비활성화 */
+    background-color: gray;
+}
 	
 	 
 	
@@ -81,41 +86,42 @@
 
         <!-- Contact -->
         <section id="contact">
-			<div class="" style="margin-left: 10rem;">
+			<div class="" style="margin-left: 10rem; min-height: 775px;">
 				<h2>planning a trip</h2>
 				
 				<div class="table-container"></div><!-- 공통 내용 -->
-				<div class="date-container"></div><!-- 날짜별 버튼 생성 -->
+				<div class="date-container" style="margin-top: 20px;"></div><!-- 날짜별 버튼 생성 -->
 				
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">				
 					<!-- <div id="parentContainer"></div> -->
 					
 					<table class="tableB t1 kFont" id="parentContainer"></table><!-- 테이블 동적 생성 -->
-					
-					
-					
-				</form>									
 
-					<button style="margin: 2rem 0rem;" onclick="addSchedule();">일정추가</button>
-					<button style="margin: 2rem 0rem;" onclick="removeSchedule();">일정삭제</button>
-					<button style="margin: 2rem 0rem;" onclick="tripDataInsert();">작성완료</button>
+				</form>									
+					<button style="margin: 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule(1);">일정추가</button>
+					<button style="margin: 2rem 0rem; background-color: #B97687;" onclick="removeSchedule();">일정삭제</button>
+					<br>
+					<button class="button active" style="margin: 2rem 0rem;" onclick="tripDataInsert();">작성완료</button>
 				</div>
         	</section>
 	
 		</section>
 	</div>
-        
-		<!-- 	<div class="copyright">
+       
+       
+       	<div class="copyright">
 				Created by: <a href="#">HEO JI HYE</a> &
 				Design by: <a href="https://templated.co/">TEMPLATED.CO</a>
-			</div> -->
+		</div>
 
 
 			
 <script type="text/javascript">
     const urlParams = new URL(location.href).searchParams;
     const tripNo = urlParams.get('tripNo');
+    const date = urlParams.get('date');
     console.log('tripNo Value:', tripNo);
+    console.log('date Value:', date);
 
   $(document).ready(function(){
     tripData(tripNo);   
@@ -194,10 +200,18 @@ function getAllDates(start, end) {
 
         // 버튼을 날짜 컨테이너에 추가
         $('.date-container').append(button);
-
-        // 페이지가 처음 실행될 때 첫 번째 날짜 버튼을 클릭합니다.
-        if (index === 0) {
-            button.click();
+        
+		// 페이지가 처음 로드될 때 URL에 date 값이 있는 경우 해당 날짜 버튼을 클릭
+        if (date) {
+            $('.date-button').each(function() {
+                if ($(this).text() === date) {
+                    $(this).click();
+                    return false; // 반복문 종료
+                }
+            });
+        } else {
+            // URL에 date 값이 없는 경우 첫 번째 버튼을 클릭
+            $('.date-button').first().click();
         }
     });
 }
@@ -205,10 +219,18 @@ function getAllDates(start, end) {
 
 /* ***************************** 기본 정보 가져오기 끝 ************************************* */
 
-
+//마지막 입력 줄 (고정)
 function dataDetail(item) {
+	
+// 	var result = confirm("작성 중인 날짜 일정이 삭제 될 수 있습니다. 진짜로 삭제하시겠습니까?");
+// 	if (result) {
+// 	    alert("삭제되었습니다.");
+// 	} else {
+// 	    alert("취소되었습니다.");
+// 	}	
+	
     console.log("item >> ", item); //날짜
-    console.log("일정 추가 버튼! index >> " , index);
+   // console.log("일정 추가 버튼! index >> " , index);
     
     console.log('tripNo Value:', tripNo);
    
@@ -254,18 +276,19 @@ function dataDetail(item) {
 
 
 
-//전역 변수로 index를 선언하고 1로 초기화
-var index = 1;
+//index 1로 초기화
+//var index = 1;
 
 // 일정 추가 버튼 클릭 시 실행되는 함수
-function addSchedule() {
+function addSchedule(index) {
+	
     console.log("일정 추가 버튼! index >> " , index);
-   
+
     let date = $('#dateInput').text();
     console.log("일정 추가 버튼! date >> " , date);
     
     console.log('tripNo Value:', tripNo);
-
+    
 
     // 새로운 일정 항목 HTML 생성
     var newSchedule = `
@@ -276,19 +299,25 @@ function addSchedule() {
             <th class="tableBth" colspan="2">내용</th>
             <th class="tableBth" colspan="2">비용</th>
         </tr>
-        <tr class="repeat-section">
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_location_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_location_${'${index}'}"></td>
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}"></td>
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}"></td>
-            <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_content_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_content_${'${index}'}"></td>
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}"></td>
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}"></td>
+        <tr class="repeat-section section1">
+            <td class="tableBtd">
+            	<input class="tInput location" type="text" placeholder="장소" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_location_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_location_${'${index}'}"></td>
+            <td class="tableBtd">
+            	<input class="tInput startTime" type="text" placeholder="일정시작시간" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_startTime_${'${index}'}"></td>
+            <td class="tableBtd">
+            	<input class="tInput endTime" type="text" placeholder="일정끝시간" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_endTime_${'${index}'}"></td>
+            <td class="tableBtd" colspan="2">
+            	<input class="tInput content" type="text" placeholder="일정 관련 내용" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_content_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_content_${'${index}'}"></td>
+            <td class="tableBtd">
+            	<input class="tInput costContent" type="text" placeholder="비용 관련 내용" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_costContent_${'${index}'}"></td>
+            <td class="tableBtd">
+            	<input class="tInput amount" type="text" placeholder="금액" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_amount_${'${index}'}"></td>
         </tr>   
         <tr class="repeat-section">
             <th class="tableBth">이동출발장소</th>
@@ -296,15 +325,19 @@ function addSchedule() {
             <th class="tableBth">소요시간</th>
             <th class="tableBth" colspan="3">비고</th>
         </tr>
-        <tr class="repeat-section">
-            <td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}"></td>
-            <td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="장소" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}"></td>
-            <td class="tableBtd"><input class="tInput" type="text" style="text-align: center;" placeholder="예) 10분" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}"></td>
-            <td class="tableBtd" colspan="3"><input class="tInput" type="text" placeholder="이동 관련 비고 사항" value="" 
-            	id="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}"></td>
+        <tr class="repeat-section section2">
+            <td class="tableBtd">
+            	<input class="tInput departureLocation" type="text" placeholder="장소" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_departureLocation_${'${index}'}"></td>
+            <td class="tableBtd" colspan="2">
+            	<input class="tInput arrivalLocation" type="text" placeholder="장소" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_arrivalLocation_${'${index}'}"></td>
+            <td class="tableBtd">
+            	<input class="tInput requiredTime" type="text" style="text-align: center;" placeholder="예) 10분" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_requiredTime_${'${index}'}"></td>
+            <td class="tableBtd" colspan="3">
+            	<input class="tInput remark" type="text" placeholder="이동 관련 비고 사항" value="" 
+            		id="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}" name="${'${tripNo}'}_${'${date}'}_remark_${'${index}'}"></td>
         </tr>
         <!-- 반복 부분 끝 -->
     `;
@@ -313,7 +346,46 @@ function addSchedule() {
     $('#lastSchedule').before(newSchedule);
 
     // 일정을 추가할 때마다 index 값을 증가시킵니다.
-    index++;
+    //index++;
+    
+    
+    // 추가 후 모든 div의 id 재배치
+    $('.section1').each(function (i) {
+        var newIndex = i + 1;
+        console.log("newIndex1 >> ", newIndex);
+           
+        $(this).find('.location').attr('id', tripNo + '_' + date + '_location_' + newIndex);
+        $(this).find('.startTime').attr('id', tripNo + '_' + date + '_startTime_' + newIndex);
+        $(this).find('.endTime').attr('id', tripNo + '_' + date + '_endTime_' + newIndex);
+        $(this).find('.content').attr('id', tripNo + '_' + date + '_content_' + newIndex); 
+        $(this).find('.costContent').attr('id', tripNo + '_' + date + '_costContent_' + newIndex);
+        $(this).find('.amount').attr('id', tripNo + '_' + date + '_amount_' + newIndex);    
+        
+        $(this).find('.location').attr('name', tripNo + '_' + date + '_location_' + newIndex);
+        $(this).find('.startTime').attr('name', tripNo + '_' + date + '_startTime_' + newIndex);
+        $(this).find('.endTime').attr('name', tripNo + '_' + date + '_endTime_' + newIndex);
+        $(this).find('.content').attr('name', tripNo + '_' + date + '_content_' + newIndex); 
+        $(this).find('.costContent').attr('name', tripNo + '_' + date + '_costContent_' + newIndex);
+        $(this).find('.amount').attr('name', tripNo + '_' + date + '_amount_' + newIndex);  
+
+    });  
+       
+    $('.section2').each(function (i) {
+        var newIndex = i + 1;
+        console.log("newIndex2 >> ", newIndex);
+           
+        $(this).find('.departureLocation').attr('id', tripNo + '_' + date + '_departureLocation_' + newIndex);
+        $(this).find('.arrivalLocation').attr('id', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
+        $(this).find('.requiredTime').attr('id', tripNo + '_' + date + '_requiredTime_' + newIndex);
+        $(this).find('.remark').attr('id', tripNo + '_' + date + '_remark_' + newIndex); 
+        
+        $(this).find('.departureLocation').attr('name', tripNo + '_' + date + '_departureLocation_' + newIndex);
+        $(this).find('.arrivalLocation').attr('name', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
+        $(this).find('.requiredTime').attr('name', tripNo + '_' + date + '_requiredTime_' + newIndex);
+        $(this).find('.remark').attr('name', tripNo + '_' + date + '_remark_' + newIndex); 
+
+    });  	    
+    
 }
 
 
@@ -327,6 +399,47 @@ function removeSchedule() {
         for (let i = 0; i < 4; i++) {
             $('.repeat-section').last().remove();
         }
+        
+        
+        // 추가 후 모든 div의 id 재배치
+        $('.section1').each(function (i) {
+            var newIndex = i + 1;
+            console.log("newIndex1 >> ", newIndex);
+               
+            $(this).find('.location').attr('id', tripNo + '_' + date + '_location_' + newIndex);
+            $(this).find('.startTime').attr('id', tripNo + '_' + date + '_startTime_' + newIndex);
+            $(this).find('.endTime').attr('id', tripNo + '_' + date + '_endTime_' + newIndex);
+            $(this).find('.content').attr('id', tripNo + '_' + date + '_content_' + newIndex); 
+            $(this).find('.costContent').attr('id', tripNo + '_' + date + '_costContent_' + newIndex);
+            $(this).find('.amount').attr('id', tripNo + '_' + date + '_amount_' + newIndex);    
+            
+            $(this).find('.location').attr('name', tripNo + '_' + date + '_location_' + newIndex);
+            $(this).find('.startTime').attr('name', tripNo + '_' + date + '_startTime_' + newIndex);
+            $(this).find('.endTime').attr('name', tripNo + '_' + date + '_endTime_' + newIndex);
+            $(this).find('.content').attr('name', tripNo + '_' + date + '_content_' + newIndex); 
+            $(this).find('.costContent').attr('name', tripNo + '_' + date + '_costContent_' + newIndex);
+            $(this).find('.amount').attr('name', tripNo + '_' + date + '_amount_' + newIndex);  
+
+        });  
+           
+        $('.section2').each(function (i) {
+            var newIndex = i + 1;
+            console.log("newIndex2 >> ", newIndex);
+               
+            $(this).find('.departureLocation').attr('id', tripNo + '_' + date + '_departureLocation_' + newIndex);
+            $(this).find('.arrivalLocation').attr('id', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
+            $(this).find('.requiredTime').attr('id', tripNo + '_' + date + '_requiredTime_' + newIndex);
+            $(this).find('.remark').attr('id', tripNo + '_' + date + '_remark_' + newIndex); 
+            
+            $(this).find('.departureLocation').attr('name', tripNo + '_' + date + '_departureLocation_' + newIndex);
+            $(this).find('.arrivalLocation').attr('name', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
+            $(this).find('.requiredTime').attr('name', tripNo + '_' + date + '_requiredTime_' + newIndex);
+            $(this).find('.remark').attr('name', tripNo + '_' + date + '_remark_' + newIndex); 
+
+        });         
+        
+        
+        
     }
 }
 
@@ -335,7 +448,10 @@ function removeSchedule() {
 //작성 완료 버튼
 function tripDataInsert(){
 	
-	console.log("작성 완료");
+    let date = $('#dateInput').text();
+    console.log("작성 완료! date :" , date); 
+    console.log('작성 완료 tripNo :', tripNo);
+	
 	
 	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
 	var jsonMemberData = JSON.stringify(formSerializeObject);	
@@ -350,7 +466,8 @@ function tripDataInsert(){
 			
 			if(result.code == "ok"){
 				alert("새로운 여행 일정이 추가되었습니다.");
-				//location.href="/tripList"; // 로그인 성공 페이지로 이동
+				location.href = "/tripDetail?tripNo=" + tripNo + "&date=" + date; // 상세페이지 이동!
+
 			}else {
 				alert("여행 일정 등록에 실패하였습니다.");
 				return false;

@@ -141,7 +141,9 @@
 <script type="text/javascript">
     const urlParams = new URL(location.href).searchParams;
     const tripNo = urlParams.get('tripNo');
+    const date = urlParams.get('date');
     console.log('tripNo Value:', tripNo);
+    console.log('date Value:', date);
 
   $(document).ready(function(){
     tripData(tripNo);   //여행 기본 정보 가져오기
@@ -221,24 +223,32 @@ function getAllDates(start, end) {
         // 버튼을 날짜 컨테이너에 추가
         $('.date-container').append(button);
 
-        // 페이지가 처음 실행될 때 첫 번째 날짜 버튼을 클릭합니다.
-        if (index === 0) {
-            button.click();
+		// 페이지가 처음 로드될 때 URL에 date 값이 있는 경우 해당 날짜 버튼을 클릭
+        if (date) {
+            $('.date-button').each(function() {
+                if ($(this).text() === date) {
+                    $(this).click();
+                    return false; // 반복문 종료
+                }
+            });
+        } else {
+            // URL에 date 값이 없는 경우 첫 번째 버튼을 클릭
+            $('.date-button').first().click();
         }
+  
     });
 }
 
 
 /* ***************************** 기본 정보 가져오기 끝 ************************************* */
 
-
-function dataDetail(item) {
-    console.log("item >> ", item); //날짜
+function dataDetail(clickedDate) {
+    console.log("clickedDate >> ", clickedDate); //날짜
     console.log('tripNo Value:', tripNo);
     
     
 	let jsonData = {tripNo : tripNo,
-					tripDate : item};
+					tripDate : clickedDate};
 	
 	console.log("jsonData >> " , jsonData)
 	
@@ -298,7 +308,7 @@ function dataDetail(item) {
 				    '</colgroup>'+  
             
              '<tr class="repeat-sectionDate table-containerDate">' +
-            '<th class="tableBth" id ="dateInput" colspan="7">' + item + '</th>' +
+            '<th class="tableBth" id ="dateInput" colspan="7">' + clickedDate + '</th>' +
             '</tr>' ;
             
          	// transformedData 객체에서 특정 키워드를 포함하는 모든 키 찾기 (장소 키를 기준으로 최대 숫자 찾음)
@@ -379,15 +389,15 @@ function dataDetail(item) {
 			$('#parentContainer').append(table);
 		
             // 수정하기와 삭제하기 버튼 생성
-            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="updateSchedule();">일정수정</button>');
-            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #B97687;" onclick="removeSchedule();">일정삭제</button>');
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="updateSchedule(\'' + clickedDate + '\');">일정수정</button>');
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #B97687;" onclick="removeSchedule(\'' + clickedDate + '\');">일정삭제</button>');
         } else {
             // 결과 데이터의 길이가 0이면 등록하기 버튼만 생성
             $('#parentContainer').empty();
             var table = '일정을 입력해주세요!';
             $('#parentContainer').append(table);
             $('.btn-container').empty();
-            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule();">일정등록</button>');
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule(\'' + clickedDate + '\');">일정등록</button>');
         }
             
 	}
@@ -398,22 +408,64 @@ function dataDetail(item) {
 /* 버튼 이동 */						
 
 //일정 등록
- function addSchedule(){
+ function addSchedule(clickedDate){
 	console.log("일정 등록");
-	location.href="/tripDetailUpload?tripNo="+tripNo;
+	 console.log("다른 함수에서 클릭된 날짜ㅠㅠㅠ:", clickedDate);
+	location.href="/tripDetailUpload?tripNo=" + tripNo + "&date=" + clickedDate; // 등록페이지 이동!
 }
 
 //일정 수정
- function updateSchedule(){
+ function updateSchedule(clickedDate){
 	 console.log("일정 수정");
 	 //location.href="/tripDetail?tripNo="+tripNo;
 }
  
 //일정 삭제 
- function removeSchedule(){
-	 console.log("일정 삭제");	
-	 //location.href="/tripDetail?tripNo="+tripNo;
+ function removeSchedule(clickedDate){
+	 
+	 console.log("일정 삭제 버튼 tripNo >> ", tripNo);
+	 console.log("일정 삭제 버튼 clickedDate >> ", clickedDate);
+	 
+	    var confirmDelete = confirm('여행 상세 일정을 삭제하시겠습니까?');
+
+	    if (confirmDelete) {
+
+		        var jsonData = {
+		            tripNo: tripNo,
+		            tripDate : clickedDate
+		        };
+		        
+	        console.log("삭제 버튼 jsonData >> ", jsonData);
+	        
+
+	        $.ajax({
+	            type: 'POST',
+	            contentType: 'application/json; charset=utf-8',
+	            data: JSON.stringify(jsonData), // JSON 문자열로 데이터 변환
+	            url: '/tripDetailDelete',
+	            success: function(result) {
+	            	console.log("result >> ", result);
+	            	
+	                if (result.code == "ok") {
+	                    alert("여행 상세 일정이 삭제되었습니다.");
+	                    location.href = "/tripDetail?tripNo=" + tripNo + "&date=" + clickedDate; // 상세페이지 이동!
+	                    //getList();
+	                } else {
+	                    alert("여행 상세 일정 삭제에 실패하였습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("여행 상세 일정 삭제 중 에러:", error);
+	                alert("여행 상세 일정 삭제 중 에러가 발생했습니다.");
+	            }
+	        });
+	        
+	    }	 
+	 
+	 
  }
+ 
+ 
 
 </script>			
 			

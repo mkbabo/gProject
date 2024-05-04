@@ -95,7 +95,19 @@ public class tripCtl {
         
         return resultMap;
     }	
-	
+    
+	//여행 상세 일정 삭제
+	@RequestMapping(value = "/tripDetailDelete", method = RequestMethod.POST)
+	public Map<String, Object> tripDetailDelete (@RequestBody Map<String, Object> data) throws Exception {
+		
+		System.out.println("여행 상세 일정 삭제 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = tripSvc.tripDetailDelete(data);
+		
+		return resultMap;
+		
+	}	
 	
 	
 }

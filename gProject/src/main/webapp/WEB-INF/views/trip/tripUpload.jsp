@@ -13,11 +13,34 @@
 <jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
+
 	.kFont {
 		font-family: "Gowun Dodum", sans-serif;
 		font-weight: 400;
 		font-style: normal;
 	}
+	
+	.dateInput {
+		height: 2.75em;
+	 	appearance: none; 
+	    border-radius: 4px;
+	    border: solid 1px rgba(25, 181, 254, 0.25);
+	    color: #C3C3C3;
+	    display: block;
+	    outline: 0;
+	    padding: 0 1em;
+	    text-decoration: none;
+	    width: 100%;
+	}
+	
+	input::placeholder {color:#C3C3C3;}
+	input::-webkit-input-placeholder {color:#C3C3C3;}
+	input:-ms-input-placeholder {color:#C3C3C3;} 
+	/* textarea::placeholder {color:#ccc;} */
+	/* textarea::-webkit-input-placeholder {color:#ccc;} */
+	/* textarea:-ms-input-placeholder {color:#ccc;} */
+
+	
 	
 </style>
 
@@ -57,11 +80,11 @@
 					</div>					
 					<div class="field half first kFont">
 						<label for="startDate">여행 시작날짜</label>
-						<input class="kFont" name="startDate" id="startDate" type="text" placeholder="YYYY-MM-DD">
+						<input class="kFont dateInput" name="startDate" id="startDate" type="date" placeholder="YYYY-MM-DD">
 					</div>
 					<div class="field half kFont">
 						<label for="endDate">여행 마지막날짜</label>
-						<input class="kFont" name="endDate" id="endDate" type="text" placeholder="YYYY-MM-DD">
+						<input class="kFont dateInput" name="endDate" id="endDate" type="date" placeholder="YYYY-MM-DD">
 					</div>	
 					<div class="field kFont">
 						<label for="photoMenuNm">여행 앨범명</label>
@@ -96,13 +119,67 @@
 			
 <script type="text/javascript">
 
-function tripWrite(){
+//유효성 테스트
+function validation(){
 	
+	var country = $('#country').val();
+	var city = $('#city').val();
+	var tripTitle = $('#tripTitle').val();
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	var photoMenuNm = $('#photoMenuNm').val();
+	
+	if(country == null || country == ""){
+		 alert("나라를 입력해주세요.");
+		 $('#country').focus();
+		 return false;
+	} 
+	 
+	if(city == null || city == ""){
+		 alert("도시를 입력해주세요.");
+		 $('#city').focus();
+		 return false;
+	} 
+	if(tripTitle == null || tripTitle == ""){
+		 alert("제목을 입력해주세요.");
+		 $('#tripTitle').focus();
+		 return false;
+	} 
+	
+	if(startDate == null || startDate == ""){
+		alert("여행 시작 날짜를 입력해주세요.");
+		$('#startDate').focus();
+		return false;
+	} 
+	
+	if(endDate == null || endDate == ""){
+		 alert("여행 마지막 날짜를 입력해주세요.");
+		 $('#endDate').focus();
+		 return false;
+	} 
+	
+	if(photoMenuNm == null || photoMenuNm == ""){
+		alert("여행앨범명을 입력해주세요.");
+		$('#photoMenuNm').focus();
+		return false;
+	} 
+	
+	return true; // 모든 조건 통과
+}
+
+
+function tripWrite(){       
+	
+    // 데이터 여부 확인
+    if (!validation()) {
+        // 유효성 검사 실패 시 처리할 로직 추가
+        return false; // 이벤트 중지
+    }
+
 	console.log("버튼클릭! ");
 	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
-
 	var jsonMemberData = JSON.stringify(formSerializeObject);
-	
+
 	$.ajax({
 		type: 'POST',
 		contentType : 'application/json; charset=utf-8',
@@ -122,12 +199,6 @@ function tripWrite(){
 	
 	
 }
-
-
-
-
-
-
 
 
 //form 데이터를 Object 형태로 변환 (serializeObject)

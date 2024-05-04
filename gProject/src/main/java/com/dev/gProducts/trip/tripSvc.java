@@ -141,5 +141,24 @@ public class tripSvc {
 }
 	
 	
+	//여행 상세 일정 삭제
+	public Map<String, Object> tripDetailDelete(Map<String, Object> data) {
+		System.out.println("여행 상세 일정 삭제 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int result = tripDao.tripDetailDelete(data);
+		System.out.println("여행 상세 일정 삭제 result >> "+ result);
+		
+		
+		if(result > 0) {
+			resultMap.put("code", "ok");
+		}else {
+			resultMap.put("code", "no");
+		}
+		
+		return resultMap;
+	}	
+	
+	
 
 }
