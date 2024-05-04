@@ -91,6 +91,13 @@
 			)
 			
 	  </insert>	
+
+	
+	<!-- 일정 유무 확인 -->
+	<select id="detailNoConut" resultType="int">
+		SELECT COUNT(td_detailNo) AS count FROM trip_detail WHERE td_detailNo = #{detailNo}
+	</select>		  
+	  
 	  
 	<!-- 여행 상세 일정 목록 -->
 	<select id="tripDetailSelect" resultType="java.util.Map">
@@ -110,7 +117,56 @@
 		WHERE 	td_tripNo 	= #{tripNo}
 		AND 	td_tripDate = #{tripDate}
 	</delete>		  
-	  
+		  
+
+	
+	
+	
+	
+	
+	<!--  
+		  
+	<- 여행 상세 일정 수정 ->
+	<update id="tripDetailUpdate" parameterType="String">  
+	    UPDATE trip_detail
+	    SET td_detailData = #{detailData},
+	        td_tripNo = #{tripNo},
+	        td_tripDate = #{tripDate}
+	    WHERE td_detailNo = #{detailNo}
+	</update>
+	
+	
+	
+	<insert id="tripDetailUpdate" parameterType="String">  
+	    <selectKey keyProperty="detailNo" resultType="String" order="BEFORE">
+	        SELECT td_detailNo FROM trip_detail WHERE td_detailNo = #{detailNo}
+	    </selectKey>
+	    <if test="detailNo != null">
+	        UPDATE 	trip_detail
+	        SET		td_detailData = #{detailData},
+	            	td_tripNo = #{tripNo},
+	            	td_tripDate = #{tripDate}
+	        WHERE 	td_detailNo = #{detailNo}
+	    </if>
+	    <if test="detailNo == null">
+	        INSERT INTO trip_detail (
+	            td_detailNo,
+	            td_detailData,
+	            td_tripNo,
+	            td_tripDate
+	        )
+	        VALUES (
+	            #{detailNo},
+	            #{detailData},
+	            #{tripNo},
+	            #{tripDate}
+	        )
+	    </if>
+	</insert>
+	-->
+	
+	
+
 	
 		  
   

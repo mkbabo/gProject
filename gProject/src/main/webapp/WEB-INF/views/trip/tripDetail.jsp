@@ -417,7 +417,7 @@ function dataDetail(clickedDate) {
 //일정 수정
  function updateSchedule(clickedDate){
 	 console.log("일정 수정");
-	 //location.href="/tripDetail?tripNo="+tripNo;
+	 location.href = "/tripDetailUpdate?tripNo=" + tripNo + "&date=" + clickedDate; // 상세페이지 이동!
 }
  
 //일정 삭제 

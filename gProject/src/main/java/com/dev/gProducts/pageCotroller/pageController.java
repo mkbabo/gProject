@@ -27,17 +27,23 @@ public class pageController {
 	public String tripUpload() {
 		return "trip/tripUpload";	
 	}
-
-	//tripDetailUpload 이동
-	@RequestMapping(value = "/tripDetailUpload")
-	public String tripDetailUpload() {
-		return "trip/tripDetailUpload";	
-	}	
 	
 	//tripDetail 이동
 	@RequestMapping(value = "/tripDetail")
 	public String tripDetail() {
 		return "trip/tripDetail";	
+	}
+	
+	//tripDetailUpload 이동
+	@RequestMapping(value = "/tripDetailUpload")
+	public String tripDetailUpload() {
+		return "trip/tripDetailUpload";	
+	}
+	
+	//tripDetailUpdate 이동
+	@RequestMapping(value = "/tripDetailUpdate")
+	public String tripDetailUpdate() {
+		return "trip/tripDetailUpdate";	
 	}
 	
 	/*photo gallery Page*/

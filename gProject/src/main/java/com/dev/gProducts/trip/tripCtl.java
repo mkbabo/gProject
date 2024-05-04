@@ -109,5 +109,17 @@ public class tripCtl {
 		
 	}	
 	
+	//여행 상세 일정 수정
+	@RequestMapping(value = "/tripDataUpdate", method = RequestMethod.POST)
+	public Map<String, Object> tripDataUpdate (@RequestBody Map<String, Object> data) throws Exception {
+		
+		System.out.println("수정 컨트롤 data >> "+ data);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap = tripSvc.tripDataUpdate(data);
+		
+		return resultMap;
+		
+	}	
 	
 }

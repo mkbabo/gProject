@@ -29,6 +29,8 @@ public interface tripDao {
 	
 	public int tripDetailDelete(Map<String, Object> data); 												//여행 상세 일정 삭제	
 	
+	public int tripDetailUpdate(String detailNo, String detailData, String tripNo, String tripDate); 	//여행 상세 일정 수정
 	
+	public int detailNoConut(String detailNo); 															//일정 유무 확인
 	
 }

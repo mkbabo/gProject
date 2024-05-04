@@ -13,6 +13,14 @@
 <jsp:include page="../include/header.jsp" />
 
 <style type="text/css">
+
+/* 미디어 쿼리를 사용하여 화면 너비가 600px 이상인 경우에만 테이블의 너비를 600px로 설정 */
+@media only screen and (min-width: 600px) {
+    .tableB {
+        width: 100%; /* 화면 너비의 600px를 사용 */
+    }
+}
+
 	.kFont {
 		font-family: "Gowun Dodum", sans-serif;
 		font-weight: 400;
@@ -21,7 +29,7 @@
 	
 	.tableB {
 	 	border-collapse : collapse;
-	 	width: 100%;
+	    width: 1300px; /* 처음 너비를 1300px로 설정 */
 	 	margin : auto;
 	 	margin-top : 20px;
 	} 	
@@ -101,7 +109,7 @@
 					<button style="margin: 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule(1);">일정추가</button>
 					<button style="margin: 2rem 0rem; background-color: #B97687;" onclick="removeSchedule();">일정삭제</button>
 					<br>
-					<button class="button active" style="margin: 2rem 0rem;" onclick="tripDataInsert();">작성완료</button>
+					<button class="button active" style="margin: 2rem 0rem;" onclick="tripDataUpdate();">수정완료</button>
 				</div>
         	</section>
 	
@@ -195,7 +203,7 @@ function getAllDates(start, end) {
             // 클릭된 버튼에 active 클래스를 추가하여 색상을 변경
             $(this).addClass('active');
 
-            dataDetail(item);
+            getData(item);
         });
 
         // 버튼을 날짜 컨테이너에 추가
@@ -217,8 +225,209 @@ function getAllDates(start, end) {
 }
 
 
-/* ***************************** 기본 정보 가져오기 끝 ************************************* */
+/* ***************************** 기존 데이터 가져오기 ************************************* */
 
+
+function getData(clickedDate) {
+    console.log("clickedDate >> ", clickedDate); //날짜
+    console.log('tripNo Value:', tripNo);
+    
+    
+	let jsonData = {tripNo : tripNo,
+					tripDate : clickedDate};
+	
+	console.log("jsonData >> " , jsonData)
+	
+	$.ajax({
+		url : '/tripDetailSelect',
+		type: 'GET',
+        dataType: 'json',
+		data : jsonData,
+		success : function(result){
+			
+            console.log("전체 글 결과 리스트 >>", result);
+            console.log("전체 글 결과 갯수! >>", result.length);
+            
+            if(result.length != 0){
+  
+            // 변환된 데이터를 저장할 빈 객체 생성
+            let transformedData = {};
+            let transformedData99 = {};
+            
+         	// "99"로 끝나는 항목은 제외
+            result.forEach(function(item) {               
+                if (!item.td_detailNo.endsWith("99")) {
+                    // td_detailNo에서 "_"를 기준으로 분할하여 인덱스 [3]부터 [4]까지를 가져옴
+                    let key = item.td_detailNo.split("_")[3] + "_" + item.td_detailNo.split("_")[4];
+                    // td_detailNo를 키로 사용하여 td_detailData를 값으로 매핑
+                    transformedData[key] = item.td_detailData;
+                }
+            });
+         	
+         	
+         	// "99"를 포함하는 항목만 출력
+            result.forEach(function(item) {
+                
+                if (item.td_detailNo.includes("99")) {
+                    
+                    let key = item.td_detailNo.split("_")[3] + "_" + item.td_detailNo.split("_")[4];
+                    
+                    transformedData99[key] = item.td_detailData;
+                }
+            });            
+            console.log("변환된 데이터 >>", transformedData);
+            console.log("변환된 데이터_99 >>", transformedData99);
+            
+            $('#parentContainer').empty();
+            $('.btn-container').empty();
+            
+            var table = '';
+            
+            table += '<colgroup>'+
+				        '<col width=20%>'+    
+				        '<col width=10%>'+    
+				        '<col width=10%>'+
+				        '<col width=10%>'+    
+				        '<col width=20%>'+      
+				        '<col width=20%>'+        
+				        '<col width=10%>'+                                   
+				    '</colgroup>'+  
+            
+             '<tr class="repeat-sectionDate table-containerDate">' +
+            '<th class="tableBth" id ="dateInput" colspan="7">' + clickedDate + '</th>' +
+            '</tr>' ;
+            
+         	// transformedData 객체에서 특정 키워드를 포함하는 모든 키 찾기 (장소 키를 기준으로 최대 숫자 찾음)
+            let locationKeys = Object.keys(transformedData).filter(key => key.startsWith('location'));     
+         	// locationKeys 배열에서 끝에 있는 숫자만 추출하여 정수로 변환하고 최대값을 찾기
+            let lastNum = Math.max(...locationKeys.map(key => parseInt(key.split('_').pop())));
+            console.log(lastNum);
+            
+            /* 반복 구간 시작  */ 
+            for (let i = 1; i <= lastNum; i++) {
+            	
+                console.log("차근차근! >> " , i)
+                
+                    let location2 			= 'location_' + i;
+    				let startTime2 			= 'startTime_' + i;
+    				let endTime2 			= 'endTime_' + i;
+				    let content2 			= 'content_' + i;
+				    let costContent2 		= 'costContent_' + i;
+				    let amount2 			= 'amount_' + i;
+
+                    let departureLocation2 	= 'departureLocation_' + i;
+    				let arrivalLocation2 	= 'arrivalLocation_' + i;
+    				let requiredTime2 		= 'requiredTime_' + i;
+				    let remark2 			= 'remark_' + i;
+        
+                
+                table += '<tr class="repeat-section">' +
+	                '<th class="tableBth firstTh">장소</th>' +
+	                '<th class="tableBth firstTh" colspan="2">일정 시간</th>' +
+	                '<th class="tableBth firstTh" colspan="2">내용</th>' +
+	                '<th class="tableBth firstTh" colspan="2">비용</th>' +
+                '</tr>' +
+                '<tr class="repeat-section section1">' +
+                
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="' + transformedData[location2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+location2+ '" name="'+tripNo+'_'+clickedDate+'_'+location2+ '"></td> ' +
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value="' + transformedData[startTime2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+startTime2+ '" name="'+tripNo+'_'+clickedDate+'_'+startTime2+ '"></td> ' +
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="' + transformedData[endTime2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+endTime2+ '" name="'+tripNo+'_'+clickedDate+'_'+endTime2+ '"></td> ' +
+
+    	       	'<td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="' + transformedData[content2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+content2+ '" name="'+tripNo+'_'+clickedDate+'_'+content2+ '"></td> ' +
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="' + transformedData[costContent2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+costContent2+ '" name="'+tripNo+'_'+clickedDate+'_'+costContent2+ '"></td> ' +
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="' + transformedData[amount2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+amount2+ '" name="'+tripNo+'_'+clickedDate+'_'+amount2+ '"></td> ' +
+                
+                '</tr>'+    
+            	
+    	        '<tr class="repeat-section">' +
+	    	        '<th class="tableBth lastTh">이동출발장소</th>' +
+	    	        '<th class="tableBth lastTh" colspan="2">이동도착장소</th>' +
+	    	        '<th class="tableBth lastTh">소요시간</th>' +
+	    	        '<th class="tableBth lastTh" colspan="3">비고</th>' +
+    	    	'</tr>'+            	
+            	
+                '<tr class="repeat-section section2">' +
+                
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="' + transformedData[departureLocation2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+departureLocation2+ '" name="'+tripNo+'_'+clickedDate+'_'+departureLocation2+ '"></td> ' +
+
+    	       	'<td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="장소" value="' + transformedData[arrivalLocation2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+arrivalLocation2+ '" name="'+tripNo+'_'+clickedDate+'_'+arrivalLocation2+ '"></td> ' +
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="예) 10분" value="' + transformedData[requiredTime2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+requiredTime2+ '" name="'+tripNo+'_'+clickedDate+'_'+requiredTime2+ '"></td> ' +
+
+    	       	'<td class="tableBtd" colspan="3"><input class="tInput" type="text" placeholder="이동 관련 비고 사항" value="' + transformedData[remark2] + '" ' + 
+	       			' id="'+tripNo+'_'+clickedDate+'_'+remark2+ '" name="'+tripNo+'_'+clickedDate+'_'+remark2+ '"></td> ' +
+
+                '</tr>';   	    	
+            }           
+    /* 반복 구간 끝 */ 
+
+       //마지막 99 리스트만!
+	   table +='<tr id="lastSchedule">' +
+		        '<th class="tableBth firstTh">장소</th>' +
+		        '<th class="tableBth firstTh" colspan="2">시간</th>' +
+		        '<th class="tableBth firstTh" colspan="2">내용</th>' +
+		        '<th class="tableBth firstTh" colspan="2">비용</th>' +
+		    '</tr>' +
+		    '<tr>' +		    
+
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="장소" value="' + transformedData99.location_99 + '" ' + 
+    	       		'id="'+tripNo+'_'+clickedDate+'_location_99" name="'+tripNo+'_'+clickedDate+'_location_99"></td> ' +
+    	        
+    	       	'<td class="tableBtd"><input class="tInput" type="text" placeholder="일정시작시간" value="' + transformedData99.startTime_99 + '" ' +  
+    	       		'id="'+tripNo+'_'+clickedDate+'_startTime_99" name="'+tripNo+'_'+clickedDate+'_startTime_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="일정끝시간" value="' + transformedData99.endTime_99 + '" ' +
+    	        	'id="'+tripNo+'_'+clickedDate+'_endTime_99" name="'+tripNo+'_'+clickedDate+'_endTime_99"></td>' +
+    	        
+    	        '<td class="tableBtd" colspan="2"><input class="tInput" type="text" placeholder="일정 관련 내용" value="' + transformedData99.content_99 + '" ' + 
+    	        	'id="'+tripNo+'_'+clickedDate+'_content_99" name="'+tripNo+'_'+clickedDate+'_content_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="비용 관련 내용" value="' + transformedData99.costContent_99 + '" ' + 
+    	        	'id="'+tripNo+'_'+clickedDate+'_costContent_99" name="'+tripNo+'_'+clickedDate+'_costContent_99"></td>' +
+    	        
+    	        '<td class="tableBtd"><input class="tInput" type="text" placeholder="금액" value="' + transformedData99.amount_99 + '" ' +
+    	        	'id="'+tripNo+'_'+clickedDate+'_amount_99" name="'+tripNo+'_'+clickedDate+'_amount_99"></td>' +
+
+		    '</tr>'; 
+
+			$('#parentContainer').append(table);
+		
+            // 수정하기와 삭제하기 버튼 생성
+            //$('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="updateSchedule(\'' + clickedDate + '\');">일정수정</button>');
+            //$('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #B97687;" onclick="removeSchedule(\'' + clickedDate + '\');">일정삭제</button>');
+        } else {
+            // 결과 데이터의 길이가 0이면 등록하기 버튼만 생성
+            //$('#parentContainer').empty();
+            //var table = '일정을 입력해주세요!';
+            //$('#parentContainer').append(table);
+            //$('.btn-container').empty();
+           // $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule(\'' + clickedDate + '\');">일정등록</button>');
+        }
+            
+	}
+	
+});   
+    
+} 
+
+
+
+
+/**************************************************************************************/
+/*
 //마지막 입력 줄 (고정)
 function dataDetail(item) {
 	
@@ -265,12 +474,7 @@ function dataDetail(item) {
 
     $('#parentContainer').append(table);
 }
-
-
-
-
-//index 1로 초기화
-//var index = 1;
+*/
 
 // 일정 추가 버튼 클릭 시 실행되는 함수
 function addSchedule(index) {
@@ -438,8 +642,8 @@ function removeSchedule() {
 
 
 
-//작성 완료 버튼
-function tripDataInsert(){
+//수정 완료 버튼
+function tripDataUpdate(){
 	
     let date = $('#dateInput').text();
     console.log("작성 완료! date :" , date); 
@@ -454,15 +658,15 @@ function tripDataInsert(){
 		type: 'POST',
 		contentType : 'application/json; charset=utf-8',
 		data : jsonMemberData,
-		url : '/tripDetailInsert',
+		url : '/tripDataUpdate',
 		success : function(result){
 			
 			if(result.code == "ok"){
-				alert("새로운 여행 일정이 추가되었습니다.");
+				alert("여행 일정이 수정되었습니다.");
 				location.href = "/tripDetail?tripNo=" + tripNo + "&date=" + date; // 상세페이지 이동!
 
 			}else {
-				alert("여행 일정 등록에 실패하였습니다.");
+				alert("여행 일정 수정에 실패하였습니다.");
 				return false;
 			}
 		}	
