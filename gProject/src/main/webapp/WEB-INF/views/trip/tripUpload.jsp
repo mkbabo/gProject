@@ -63,7 +63,7 @@
         <!-- Contact -->
         <section id="contact">
 			<!-- Form -->
-			<div class="column" style="margin: auto; margin-bottom: 143px;">
+			<div class="column" style="margin: auto; margin-bottom: 42px;">
 				<h2>planning a trip</h2>
 				<form class= "newData" id="newData" name="newData" method="post" onsubmit="return false" enctype="multipart/form-data">
 					<div class="field half first kFont">
@@ -91,10 +91,10 @@
 						<input class="kFont" name="photoMenuNm" id="photoMenuNm" type="text" placeholder="여행앨범이름">
 					</div>	
 					<div class="field half first kFont">
-						<input class="button active kFont" value="취소하기" type="button" style="" onclick="location.href='/tripList'">
+						<input class="button kFont" value="취소하기" type="button" style="background-color: #B97687;" onclick="location.href='/tripList'">
 					</div>						
 					<div class="field half kFont" style="text-align: right;">
-						<input class="button kFont" value="등록하기" type="button" style="" onclick="tripWrite();">
+						<input class="button kFont" value="등록하기" type="button" style="background-color: #83B1C9;" onclick="tripWrite();">
 					</div>											
 				</form>
 			</div>

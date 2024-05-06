@@ -59,7 +59,18 @@
 	</delete>
  
   
-  
+ 	<!-- 여행 일정 삭제 시 해당 여행 사진 전체 삭제  -->
+	<select id="tripPhotoCount" resultType="int">
+	SELECT count(*) AS COUNT FROM photo_list WHERE pl_tripNo = #{tripNo}
+	</select> 	
+ 	
+	<delete id="tripPhotoDelete">  
+	    DELETE FROM photo_list
+	    WHERE pl_tripNo = #{tripNo}
+	</delete> 
+	
+
+	
   
   </mapper>
   

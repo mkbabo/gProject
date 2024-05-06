@@ -182,13 +182,13 @@ function photoBtn(tripNo){
 
 
 function tripDelBtn(tripNo) {
-    var confirmDelete = confirm('여행 일정을 삭제하시겠습니까?');
+    var confirmDelete = confirm('삭제하시면 상세 일정 및 앨범이 모두 삭제됩니다. \n그래도 여행 일정을 삭제하시겠습니까?');
 
     if (confirmDelete) {
         console.log("삭제 버튼 >> ", tripNo);
 
         var jsonData = {
-            tripNo: tripNo
+            tripNo: 'trip_006'
         };
 
         $.ajax({
@@ -197,6 +197,9 @@ function tripDelBtn(tripNo) {
             data: JSON.stringify(jsonData), // JSON 문자열로 데이터 변환
             url: '/tripDelete',
             success: function(result) {
+            	
+            	console.log("result >> " , result)
+            	
                 if (result.code == "ok") {
                     alert("여행 일정이 삭제되었습니다.");
                     //location.href = "/tripList"; // 여행 목록 페이지로 이동

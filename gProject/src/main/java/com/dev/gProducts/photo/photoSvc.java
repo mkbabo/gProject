@@ -109,8 +109,102 @@ public class photoSvc {
 	    // 결과 반환
 	    resultMap.put("message", deletedCount + "개의 사진을 삭제하였습니다.");
 	    return resultMap;
-	}	
+	}
+
 	
+	//여행 일정 삭제 시 앨범 폴더 삭제
+	public int tripPhotoDelete(Map<String, Object> data) {
+	    System.out.println("여행 일정 삭제 시 앨범 폴더 삭제 >> " + data); //{tripNo=trip_006}
+	    
+		int tripPhotoCount = photoDao.tripPhotoCount(data); // 여행 상세 일정 데이터 존재 유무 확인
+		if(tripPhotoCount == 0) {
+			return 0;
+		}	    
+
+	    int deletedCount = 0;
+	    
+	    String tripNoStr = data.get("tripNo").toString();
+	    
+	    // 데이터베이스에서의 삭제
+	    int deleteResult = photoDao.tripPhotoDelete(data);
+	    if (deleteResult > 0) {
+	        // 삭제 성공한 경우에만 파일 시스템에서의 삭제 수행
+	        Path uploadPath = Paths.get(uploadDir + "/" + tripNoStr);
+	        File fileToDelete = uploadPath.toFile();
+	        if (fileToDelete.exists()) {
+	            // 폴더 안의 모든 파일 삭제
+	            File[] files = fileToDelete.listFiles();
+	            if (files != null) {
+	                for (File file : files) {
+	                    if (file.delete()) {
+	                        deletedCount++;
+	                    } else {
+	                        return 0; // 파일 삭제 실패
+	                    }
+	                }
+	            }
+	            // 폴더 삭제
+	            if (fileToDelete.delete()) {
+	                deletedCount++; // 폴더 삭제 성공
+	            } else {
+	                return 0; // 폴더 삭제 실패
+	            }
+	        } else {
+	            return 0; // 폴더가 존재하지 않음
+	        }
+	    } else {
+	        return 0; // 데이터베이스에서의 삭제 실패
+	    }
+
+	    return deletedCount; // 결과 반환
+	}
+	
+	
+	
+	
+	
+//	public int tripPhotoDelete(Map<String, Object> data) {
+//	    System.out.println("여행 일정 삭제 시 앨범 폴더 삭제 >> " + data); //{tripNo=trip_006}
+//	    
+//	    int deletedCount = 0;
+//	    
+//	    String tripNoStr = data.get("tripNo").toString();
+//	    
+//	    // 데이터베이스에서의 삭제
+//	    int deleteResult = photoDao.tripPhotoDelete(data);
+//	    if (deleteResult > 0) {
+//	        // 삭제 성공한 경우에만 파일 시스템에서의 삭제 수행
+//	        Path uploadPath = Paths.get(uploadDir + "/" + tripNoStr);
+//	        File fileToDelete = uploadPath.toFile();
+//	        if (fileToDelete.exists()) {
+//	            // 폴더 안의 모든 파일 삭제
+//	            File[] files = fileToDelete.listFiles();
+//	            if (files != null) {
+//	                for (File file : files) {
+//	                    if (file.delete()) {
+//	                        deletedCount++;
+//	                    } else {
+//	                        return 0; // 파일 삭제 실패
+//	                    }
+//	                }
+//	            }
+//	            // 폴더 삭제
+//	            if (fileToDelete.delete()) {
+//	                deletedCount++; // 폴더 삭제 성공
+//	            } else {
+//	                return 0; // 폴더 삭제 실패
+//	            }
+//	        } else {
+//	            return 1; // 폴더가 존재하지 않음
+//	        }
+//	    } else {
+//	        return 0; // 데이터베이스에서의 삭제 실패
+//	    }
+//
+//	    return deletedCount; // 결과 반환
+//	}
+//	
+//	
 	
 	
 	

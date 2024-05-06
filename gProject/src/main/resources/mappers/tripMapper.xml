@@ -117,12 +117,21 @@
 		WHERE 	td_tripNo 	= #{tripNo}
 		AND 	td_tripDate = #{tripDate}
 	</delete>		  
-		  
 
+
+	<!-- 여행 상세 일정 삭제 (여행 일정 삭제 시 )-->
+	<select id="tripDetailCount" resultType="int">
+	SELECT count(*) AS COUNT FROM trip_detail WHERE td_tripNo = #{tripNo}
+	</select>
 	
-	
-	
-	
+	<delete id="tripDetailDelete2">
+		DELETE 
+		FROM 	trip_detail 
+		WHERE 	td_tripNo 	= #{tripNo}
+	</delete>	
+
+
+		
 	
 	<!--  
 		  

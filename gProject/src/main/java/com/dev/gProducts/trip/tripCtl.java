@@ -60,7 +60,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripDelete", method = RequestMethod.POST)
 	public Map<String, Object> tripDelete (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("여행 일정 삭제1 data >> "+ data);
+		System.out.println("여행 일정 삭제 ctl data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripDelete(data);

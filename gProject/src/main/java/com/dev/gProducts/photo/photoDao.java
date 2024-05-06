@@ -17,5 +17,8 @@ public interface photoDao {
 	
 	public int photoDelete(String photoNo); //사진 삭제
 	
+	public int tripPhotoDelete(Map<String, Object> data); //여행 사진 전체 삭제
+	public int tripPhotoCount(Map<String, Object> data);
+	
 	
 }

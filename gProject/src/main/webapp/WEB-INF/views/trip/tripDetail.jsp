@@ -107,7 +107,7 @@
 
         <!-- Contact -->
         <section id="contact">
-			<div class="" style="margin-left: 10rem;">
+			<div class="" style="margin-left: 10rem; min-height: 740px;">
 				<h2>planning a trip</h2>
 				
 				<div class="table-container"></div><!-- 공통 내용 -->
@@ -131,10 +131,10 @@
 		</section>
 	</div>
         
-		<!-- 	<div class="copyright">
+			<div class="copyright">
 				Created by: <a href="#">HEO JI HYE</a> &
 				Design by: <a href="https://templated.co/">TEMPLATED.CO</a>
-			</div> -->
+			</div> 
 
 
 			
@@ -399,7 +399,7 @@ function dataDetail(clickedDate) {
             $('.btn-container').empty();
             $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #83B1C9;" onclick="addSchedule(\'' + clickedDate + '\');">일정등록</button>');
         }
-            
+            $('.btn-container').append('<button style="margin: 2rem 1rem 2rem 0rem; background-color: #838BB2;" onclick="movePage();">목록으로</button>');   
 	}
 	
 });   
@@ -465,6 +465,13 @@ function dataDetail(clickedDate) {
 	 
  }
  
+ // 목록이동
+ function movePage(){
+	 
+	 console.log("페이지 이동");
+	 location.href = "/tripList"
+	 	 
+ }
  
 
 </script>			

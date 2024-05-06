@@ -6,12 +6,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dev.gProducts.photo.photoSvc;
 
 @Service
 public class tripSvc {
 	
 	@Autowired
 	tripDao tripDao;
+	
+	@Autowired
+	photoSvc photoSvc;
 
 /****************** 여행 목록 일정 ******************/	
 	
@@ -58,22 +64,85 @@ public class tripSvc {
 		return resultMap;
 	}
 	
-	//여행 일정 삭제
+	//여행 일정 삭제 (앨범 사진, 상세 일정 모두 삭제해야함)
 	public Map<String, Object> tripDelete(Map<String, Object> data) {
-		System.out.println("여행 일정 삭제 data >> "+ data);
+		System.out.println("여행 일정 삭제 svc data >> "+ data); //{tripNo=trip_006}
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int result = tripDao.tripDelete(data);
 		
-		if(result == 1) {
-			resultMap.put("code", "ok");
-		}else {
+		//여행 일정 삭제
+		int tripDeleteResult = tripDao.tripDelete(data); //여행 일정 삭제
+		if(tripDeleteResult == 0) {
 			resultMap.put("code", "no");
+			resultMap.put("message", "여행 일정 삭제 오류");
+			return resultMap;
+		}		
+
+		//여행 상세 일정 삭제
+		int tripDetailCount = tripDao.tripDetailCount(data); // 여행 상세 일정 데이터 존재 유무 확인
+		if(tripDetailCount > 0) {
+			int tripDetailDeleteResult = tripDao.tripDetailDelete2(data); // 여행 상세 일정 삭제
+			if(tripDetailDeleteResult == 0) {
+				resultMap.put("code", "no");
+				resultMap.put("message", "여행 일정 삭제 오류");
+				return resultMap;
+			}
 		}
 		
-		return resultMap;
-	}
+		//여행 사진 폴더 삭제
+		int tripPhotoDelete	= photoSvc.tripPhotoDelete(data); // 앨범 삭제
+		if(tripPhotoDelete == 0) {
+			resultMap.put("code", "ok");
+			resultMap.put("message", "여행 앨범 존재 하지 않음");
+			return resultMap;			
+		}
+		
+		resultMap.put("code", "ok");
+		resultMap.put("message", "여행 일정 삭제가 완료되었습니다.");
+		return resultMap;			
 
+
+	}	
+
+    @Transactional
+    public Map<String, Object> tripDelete11(Map<String, Object> data) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            // 여행 일정 삭제
+            int tripDeleteResult = tripDao.tripDelete(data);
+            if (tripDeleteResult == 0) {
+                throw new RuntimeException("여행 일정 삭제 실패");
+            }
+            
+    		int tripDetailCount = tripDao.tripDetailCount(data); // 여행 상세 일정 데이터 존재 유무 확인
+    		if(tripDetailCount == 0) {
+    			throw new RuntimeException("여행 상세 일정 존재하지 않음");
+    		}
+
+            // 여행 상세 일정 삭제
+            int tripDetailDeleteResult = tripDao.tripDetailDelete2(data);
+            if (tripDetailDeleteResult == 0) {
+                throw new RuntimeException("여행 상세 일정 삭제 실패");
+            }
+
+            // 여행 사진 폴더 삭제
+            int tripPhotoDelete = photoSvc.tripPhotoDelete(data);
+//            if (tripPhotoDelete == 0) {
+//                throw new RuntimeException("여행 사진 폴더 삭제 실패");
+//            }
+
+            // 모든 작업이 성공했을 때 커밋
+            resultMap.put("code", "ok");
+            resultMap.put("message", "여행 일정 삭제가 완료되었습니다.");
+            return resultMap;
+        } catch (RuntimeException e) {
+            // 하나의 작업이라도 실패하면 롤백
+            resultMap.put("code", "no");
+            resultMap.put("message", e.getMessage());
+            return resultMap;
+        }
+    }
 	
 	
 /****************** 여행 상세 일정 ******************/
