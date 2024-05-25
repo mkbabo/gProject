@@ -30,7 +30,7 @@ public class photoCtl {
 	//여행 일정 목록
     @GetMapping("/photoList")
     public List<Map<String, Object>> photoList () {
-        System.out.println("컨트롤!");
+      //  System.out.println("컨트롤!");
 
         List<Map<String, Object>> resultMap = photoSvc.photoList();
 
@@ -53,7 +53,7 @@ public class photoCtl {
 		String[] storedFileNames = new String[files.length];
 		
         String tripNo = data.get("tripNo").toString();
-        System.out.println("여행번호: " + tripNo);
+        //System.out.println("여행번호: " + tripNo);
         int result = 0;
         
         // 파일 처리 및 저장된 파일 이름 배열에 추가
@@ -62,7 +62,7 @@ public class photoCtl {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             String storedFileName = storeFile(file, tripNo); // 파일 저장하고 저장된 파일 경로를 반환
             storedFileNames[i] = storedFileName; // 저장된 파일 이름 배열에 추가
-            System.out.println("저장된 파일 이름: " + storedFileName);
+            //System.out.println("저장된 파일 이름: " + storedFileName);
         }
         
         resultMap = photoSvc.photoInsert(tripNo, storedFileNames);
@@ -103,7 +103,7 @@ public class photoCtl {
 		//여행 별 사진 목록
 	    @GetMapping("/photoSelectList")
 	    public List<Map<String, Object>> photoSelectList(@RequestParam Map<String, Object> data) {
-	        System.out.println("여행 별 사진 목록 컨트롤!");
+	       // System.out.println("여행 별 사진 목록 컨트롤!");
 
 	        List<Map<String, Object>> resultMap = photoSvc.photoSelectList(data);
 
@@ -113,7 +113,7 @@ public class photoCtl {
 		//선택 사진 삭제
 	    @PostMapping("/photoDelete")
 	    public Map<String, Object> photoDelete(@RequestBody List<Map<String, Object>> data) {
-	        System.out.println("여행 별 사진 목록 컨트롤!>> "+ data);
+	       // System.out.println("여행 별 사진 목록 컨트롤!>> "+ data);
 
 	        Map<String, Object> resultMap = photoSvc.photoDelete(data);
 

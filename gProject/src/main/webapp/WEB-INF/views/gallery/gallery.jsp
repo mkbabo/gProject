@@ -179,40 +179,57 @@
 				
         
 <script type="text/javascript">
+
+//현재 URL 가져오기 (trip List에서 Gallery 버튼 클릭하여 들어온 url)
+var currentUrl = window.location.href;
+
+//URL을 파싱하여 tripNo 값을 가져오기
+var url = new URL(currentUrl);
+var tripNo = url.searchParams.get("tripNo");
+if (tripNo) {
+// console.log("tripNo 값: " + tripNo);
+ photoDetailPage(tripNo);
+ 
+}
+
+
+console.log("번호 >> ", tripNo)
+
+
 $(document).ready(function(){
-	photoNmList();
+	photoNmList(tripNo);
 	selectBox();
 });
 
 
 //여행리스트에서 포토명 가져와서 버튼 생성
-function photoNmList(){
+function photoNmList(tripNo) {
+    console.log("번호 >> ", tripNo);
 
-	    $.ajax({
-	        url:'/photoList',
-	        type: 'GET',
-	        dataType: 'json', 
-	        //data : data,        
-	        success : function(result){
-	            console.log("결과 리스트 >>", result);	            
-	            var template = '<ul class="tabs">'; // 템플릿 변수 초기화
-	            
-	            $.each(result, function(index, item) {
-	                // 각 행 추가
-	                template += 
-			        '<li>'+
-			        	'<input type="button" class="button kFont" onclick="photoDetailPage(\'' + item.tl_tripNo + '\')" value="'+item.tl_photoMenuNm+'">'+
-			        '</li>';
-	            });
-	            
-	            template += 
-			    '</ul>';     	
-	
-	            // 템플릿을 페이지에 추가
-	            $('#btnContainer').empty().append(template);
-	        }
-	    });
-	};
+    $.ajax({
+        url: '/photoList',
+        type: 'GET',
+        dataType: 'json', 
+        success: function(result) {
+            var template = '<ul class="tabs">'; // 템플릿 변수 초기화
+            
+            $.each(result, function(index, item) {
+                // 각 행 추가
+                var activeClass = (tripNo === item.tl_tripNo) ? 'active' : '';
+                template += 
+                    '<li>' +
+                        '<input type="button" class="button kFont ' + activeClass + '" onclick="photoDetailPageBtn(\'' + item.tl_tripNo + '\')" value="'+item.tl_photoMenuNm+'">' +
+                    '</li>';
+            });
+            
+            template += '</ul>';     
+    
+            // 템플릿을 페이지에 추가
+            $('#btnContainer').empty().append(template);
+        }
+    });
+};
+
 	
 //select box 동적 생성
 function selectBox(){
@@ -222,7 +239,7 @@ function selectBox(){
 	    type: 'GET',
 	    dataType: 'json', 
 	    success : function(result) {
-	        console.log("결과 리스트 >>", result);
+	        //console.log("결과 리스트 >>", result);
 
 	        // select box 요소 선택
 	        var selectBox = $('<select class="kFont" id="photoSelect"></select>');
@@ -252,19 +269,19 @@ function selectBox(){
 	 
 	 // 여행번호 (선택된 값 가져오기)
 	 var selectedValue = $('#photoSelect').val();
-	 console.log("선택된 값:", selectedValue);
+	// console.log("선택된 값:", selectedValue);
 	 formData.append('tripNo', selectedValue);
 
 	 // 첨부파일명 (여러 파일을 선택한 경우에 대한 처리)
 	 var files = $('#file')[0].files;
 
-	 console.log("files>>>", files);
+	// console.log("files>>>", files);
 
 	 for (var i = 0; i < files.length; i++) {
 	     formData.append('dataFileUpload', files[i]); // 파일들을 'dataFileUpload'이라는 이름으로 FormData에 추가
 	 }
 
-	 console.log("formData>>>", formData);
+	// console.log("formData>>>", formData);
 	 
 	 //데이터 여부 확인
 	 if(selectedValue == null || selectedValue == ""){
@@ -289,7 +306,7 @@ function selectBox(){
 	    processData: false,
 	    contentType: false,
 	    success: function (result) {
-	        console.log("성공>> ", result);
+	        //console.log("성공>> ", result);
 	        alert(result.message);
 	        location.href = "gallery?tripNo="+result.tripNo; //페이지로 이동
 	        
@@ -320,12 +337,19 @@ function selectBox(){
     }
 
 
+
+	// 페이지 이동 버튼
+    function photoDetailPageBtn(tripNo) {
+    	location.href = "gallery?tripNo="+tripNo; //페이지로 이동
+    };
+
+
 //각 버튼 해당 이미지 보여주기	
 function photoDetailPage(tripNo) {
-    console.log("번호 오니??? >", tripNo);
+    //console.log("번호 오니??? >", tripNo);
 
     let jsonData = { tripNo: tripNo };
-    console.log("jsonData >", jsonData);
+   // console.log("jsonData >", jsonData);
 
     //select box와 파일 input 초기화 필요
     $(document).ready(function() {
@@ -335,7 +359,7 @@ function photoDetailPage(tripNo) {
             dataType: 'json',
             data: jsonData,
             success: function(result) {
-                console.log("결과 리스트~~ >>", result);
+                //console.log("결과 리스트~~ >>", result);
                 var template = "";
 
                 $.each(result, function(index, item) {
@@ -378,7 +402,7 @@ function photoDetailPage(tripNo) {
 
 // 삭제 버튼 클릭 시 선택된 이미지 삭제
 $('.imgDelete').click(function() {
-    console.log("확인!");
+   // console.log("확인!");
     
     // Array to hold selected data
     var selectedData = [];
@@ -392,11 +416,11 @@ $('.imgDelete').click(function() {
         selectedData.push({ tripNo: tripNo, photoNo: photoNo, filename: filename });
         
         // Log selected data
-        console.log("선택된 이미지 삭제:", tripNo, photoNo, filename);
+        //console.log("선택된 이미지 삭제:", tripNo, photoNo, filename);
     });
     
     let reTripNo = selectedData[0].tripNo;
-    console.log("tripNo 삭제:", reTripNo);
+    //console.log("tripNo 삭제:", reTripNo);
     
     // Send selected data to server
      $.ajax({
@@ -405,7 +429,7 @@ $('.imgDelete').click(function() {
         contentType: 'application/json', // Set content type to JSON
         data: JSON.stringify(selectedData), // Convert selectedData to JSON string
         success: function(result) {
-            console.log("결과 리스트~~ >>", result); 
+            //console.log("결과 리스트~~ >>", result); 
             alert(result.message);
             location.href="/gallery?tripNo="+reTripNo;
             
@@ -450,18 +474,6 @@ $('.imgDelete').click(function() {
 
 
 
-
-// 현재 URL 가져오기 (trip List에서 Gallery 버튼 클릭하여 들어온 url)
-var currentUrl = window.location.href;
-
-// URL을 파싱하여 tripNo 값을 가져오기
-var url = new URL(currentUrl);
-var tripNo = url.searchParams.get("tripNo");
-if (tripNo) {
-    console.log("tripNo 값: " + tripNo);
-    photoDetailPage(tripNo);
-    
-}
 
 
 

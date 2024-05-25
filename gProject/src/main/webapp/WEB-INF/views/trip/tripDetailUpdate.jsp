@@ -128,8 +128,8 @@
     const urlParams = new URL(location.href).searchParams;
     const tripNo = urlParams.get('tripNo');
     const date = urlParams.get('date');
-    console.log('tripNo Value:', tripNo);
-    console.log('date Value:', date);
+   // console.log('tripNo Value:', tripNo);
+   // console.log('date Value:', date);
 
   $(document).ready(function(){
     tripData(tripNo);   
@@ -140,7 +140,7 @@
 //여행 기본 정보 가져오기
 function tripData(tripNo){
 	
-	console.log("tripNo >> " , tripNo);
+	//console.log("tripNo >> " , tripNo);
 	let jsonData = {tripNo : tripNo}; 
 	
 	$.ajax({
@@ -150,7 +150,7 @@ function tripData(tripNo){
 		url : '/tripData',
 		success : function(item){
 			
-            console.log("전체 글 결과 리스트 >>", item);
+           // console.log("전체 글 결과 리스트 >>", item);
             var template = ""; // 템플릿 변수 초기화
 
                 template += 
@@ -229,14 +229,14 @@ function getAllDates(start, end) {
 
 
 function getData(clickedDate) {
-    console.log("clickedDate >> ", clickedDate); //날짜
-    console.log('tripNo Value:', tripNo);
+   // console.log("clickedDate >> ", clickedDate); //날짜
+   // console.log('tripNo Value:', tripNo);
     
     
 	let jsonData = {tripNo : tripNo,
 					tripDate : clickedDate};
 	
-	console.log("jsonData >> " , jsonData)
+	//console.log("jsonData >> " , jsonData)
 	
 	$.ajax({
 		url : '/tripDetailSelect',
@@ -245,8 +245,8 @@ function getData(clickedDate) {
 		data : jsonData,
 		success : function(result){
 			
-            console.log("전체 글 결과 리스트 >>", result);
-            console.log("전체 글 결과 갯수! >>", result.length);
+         //   console.log("전체 글 결과 리스트 >>", result);
+         //   console.log("전체 글 결과 갯수! >>", result.length);
             
             if(result.length != 0){
   
@@ -275,8 +275,8 @@ function getData(clickedDate) {
                     transformedData99[key] = item.td_detailData;
                 }
             });            
-            console.log("변환된 데이터 >>", transformedData);
-            console.log("변환된 데이터_99 >>", transformedData99);
+            //console.log("변환된 데이터 >>", transformedData);
+            //console.log("변환된 데이터_99 >>", transformedData99);
             
             $('#parentContainer').empty();
             $('.btn-container').empty();
@@ -301,12 +301,12 @@ function getData(clickedDate) {
             let locationKeys = Object.keys(transformedData).filter(key => key.startsWith('location'));     
          	// locationKeys 배열에서 끝에 있는 숫자만 추출하여 정수로 변환하고 최대값을 찾기
             let lastNum = Math.max(...locationKeys.map(key => parseInt(key.split('_').pop())));
-            console.log(lastNum);
+           // console.log(lastNum);
             
             /* 반복 구간 시작  */ 
             for (let i = 1; i <= lastNum; i++) {
             	
-                console.log("차근차근! >> " , i)
+              //  console.log("차근차근! >> " , i)
                 
                     let location2 			= 'location_' + i;
     				let startTime2 			= 'startTime_' + i;
@@ -479,12 +479,12 @@ function dataDetail(item) {
 // 일정 추가 버튼 클릭 시 실행되는 함수
 function addSchedule(index) {
 	
-    console.log("일정 추가 버튼! index >> " , index);
+   // console.log("일정 추가 버튼! index >> " , index);
 
     let date = $('#dateInput').text();
-    console.log("일정 추가 버튼! date >> " , date);
+  //  console.log("일정 추가 버튼! date >> " , date);
     
-    console.log('tripNo Value:', tripNo);
+  //  console.log('tripNo Value:', tripNo);
     
 
     // 새로운 일정 항목 HTML 생성
@@ -549,7 +549,7 @@ function addSchedule(index) {
     // 추가 후 모든 div의 id 재배치
     $('.section1').each(function (i) {
         var newIndex = i + 1;
-        console.log("newIndex1 >> ", newIndex);
+     //   console.log("newIndex1 >> ", newIndex);
            
         $(this).find('.location').attr('id', tripNo + '_' + date + '_location_' + newIndex);
         $(this).find('.startTime').attr('id', tripNo + '_' + date + '_startTime_' + newIndex);
@@ -569,7 +569,7 @@ function addSchedule(index) {
        
     $('.section2').each(function (i) {
         var newIndex = i + 1;
-        console.log("newIndex2 >> ", newIndex);
+      //  console.log("newIndex2 >> ", newIndex);
            
         $(this).find('.departureLocation').attr('id', tripNo + '_' + date + '_departureLocation_' + newIndex);
         $(this).find('.arrivalLocation').attr('id', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
@@ -601,7 +601,7 @@ function removeSchedule() {
         // 추가 후 모든 div의 id 재배치
         $('.section1').each(function (i) {
             var newIndex = i + 1;
-            console.log("newIndex1 >> ", newIndex);
+         //   console.log("newIndex1 >> ", newIndex);
                
             $(this).find('.location').attr('id', tripNo + '_' + date + '_location_' + newIndex);
             $(this).find('.startTime').attr('id', tripNo + '_' + date + '_startTime_' + newIndex);
@@ -621,7 +621,7 @@ function removeSchedule() {
            
         $('.section2').each(function (i) {
             var newIndex = i + 1;
-            console.log("newIndex2 >> ", newIndex);
+          //  console.log("newIndex2 >> ", newIndex);
                
             $(this).find('.departureLocation').attr('id', tripNo + '_' + date + '_departureLocation_' + newIndex);
             $(this).find('.arrivalLocation').attr('id', tripNo + '_' + date + '_arrivalLocation_' + newIndex);
@@ -646,13 +646,13 @@ function removeSchedule() {
 function tripDataUpdate(){
 	
     let date = $('#dateInput').text();
-    console.log("작성 완료! date :" , date); 
-    console.log('작성 완료 tripNo :', tripNo);
+  //  console.log("작성 완료! date :" , date); 
+ //   console.log('작성 완료 tripNo :', tripNo);
 	
 	
 	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
 	var jsonMemberData = JSON.stringify(formSerializeObject);	
-	console.log("jsonMemberData! >>", jsonMemberData);
+	//console.log("jsonMemberData! >>", jsonMemberData);
 	
 	$.ajax({
 		type: 'POST',

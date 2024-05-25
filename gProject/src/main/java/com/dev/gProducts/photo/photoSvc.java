@@ -32,8 +32,8 @@ public class photoSvc {
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		
-		System.out.println("tripNo>> "+ tripNo);
-		System.out.println("storedFileNames>> "+ storedFileNames);
+	//	System.out.println("tripNo>> "+ tripNo);
+	//	System.out.println("storedFileNames>> "+ storedFileNames);
 
 		int result = 0;
 	        
@@ -41,7 +41,7 @@ public class photoSvc {
 	        for (String photoFileNm : storedFileNames) {
 	    		String photoNo = photoDao.photoNoSelect().toString();
 
-	            System.out.println("저장된 파일 이름: " + photoFileNm);
+	           // System.out.println("저장된 파일 이름: " + photoFileNm);
 	            // insert 쿼리를 실행하여 데이터베이스에 사진 정보 저장
 	            result += photoDao.photoInsert(photoNo, tripNo, photoFileNm);
 	        }
@@ -114,7 +114,7 @@ public class photoSvc {
 	
 	//여행 일정 삭제 시 앨범 폴더 삭제
 	public int tripPhotoDelete(Map<String, Object> data) {
-	    System.out.println("여행 일정 삭제 시 앨범 폴더 삭제 >> " + data); //{tripNo=trip_006}
+	    //System.out.println("여행 일정 삭제 시 앨범 폴더 삭제 >> " + data); //{tripNo=trip_006}
 	    
 		int tripPhotoCount = photoDao.tripPhotoCount(data); // 여행 상세 일정 데이터 존재 유무 확인
 		if(tripPhotoCount == 0) {

@@ -142,8 +142,8 @@
     const urlParams = new URL(location.href).searchParams;
     const tripNo = urlParams.get('tripNo');
     const date = urlParams.get('date');
-    console.log('tripNo Value:', tripNo);
-    console.log('date Value:', date);
+   // console.log('tripNo Value:', tripNo);
+   // console.log('date Value:', date);
 
   $(document).ready(function(){
     tripData(tripNo);   //여행 기본 정보 가져오기
@@ -154,7 +154,7 @@
 //여행 기본 정보 가져오기
 function tripData(tripNo){
 	
-	console.log("tripNo >> " , tripNo);
+	//console.log("tripNo >> " , tripNo);
 	let jsonData = {tripNo : tripNo}; 
 	
 	$.ajax({
@@ -164,7 +164,7 @@ function tripData(tripNo){
 		url : '/tripData',
 		success : function(item){
 			
-            console.log("전체 글 결과 리스트 >>", item);
+          //  console.log("전체 글 결과 리스트 >>", item);
             var template = ""; // 템플릿 변수 초기화
 
                 template += 
@@ -243,14 +243,14 @@ function getAllDates(start, end) {
 /* ***************************** 기본 정보 가져오기 끝 ************************************* */
 
 function dataDetail(clickedDate) {
-    console.log("clickedDate >> ", clickedDate); //날짜
-    console.log('tripNo Value:', tripNo);
+  //  console.log("clickedDate >> ", clickedDate); //날짜
+  //  console.log('tripNo Value:', tripNo);
     
     
 	let jsonData = {tripNo : tripNo,
 					tripDate : clickedDate};
 	
-	console.log("jsonData >> " , jsonData)
+//	console.log("jsonData >> " , jsonData)
 	
 	$.ajax({
 		url : '/tripDetailSelect',
@@ -259,8 +259,8 @@ function dataDetail(clickedDate) {
 		data : jsonData,
 		success : function(result){
 			
-            console.log("전체 글 결과 리스트 >>", result);
-            console.log("전체 글 결과 갯수! >>", result.length);
+         //  console.log("전체 글 결과 리스트 >>", result);
+         //  console.log("전체 글 결과 갯수! >>", result.length);
             
             if(result.length != 0){
   
@@ -289,8 +289,8 @@ function dataDetail(clickedDate) {
                     transformedData99[key] = item.td_detailData;
                 }
             });            
-            console.log("변환된 데이터 >>", transformedData);
-            console.log("변환된 데이터_99 >>", transformedData99);
+         //   console.log("변환된 데이터 >>", transformedData);
+         //   console.log("변환된 데이터_99 >>", transformedData99);
             
             $('#parentContainer').empty();
             $('.btn-container').empty();
@@ -315,12 +315,12 @@ function dataDetail(clickedDate) {
             let locationKeys = Object.keys(transformedData).filter(key => key.startsWith('location'));     
          	// locationKeys 배열에서 끝에 있는 숫자만 추출하여 정수로 변환하고 최대값을 찾기
             let lastNum = Math.max(...locationKeys.map(key => parseInt(key.split('_').pop())));
-            console.log(lastNum);
+          //  console.log(lastNum);
             
             /* 반복 구간 시작  */ 
             for (let i = 1; i <= lastNum; i++) {
             	
-                console.log("차근차근! >> " , i)
+          //      console.log("차근차근! >> " , i)
                 
                     let location2 			= 'location_' + i;
     				let startTime2 			= 'startTime_' + i;
@@ -409,22 +409,22 @@ function dataDetail(clickedDate) {
 
 //일정 등록
  function addSchedule(clickedDate){
-	console.log("일정 등록");
-	 console.log("다른 함수에서 클릭된 날짜ㅠㅠㅠ:", clickedDate);
+	//console.log("일정 등록");
+	// console.log("다른 함수에서 클릭된 날짜:", clickedDate);
 	location.href="/tripDetailUpload?tripNo=" + tripNo + "&date=" + clickedDate; // 등록페이지 이동!
 }
 
 //일정 수정
  function updateSchedule(clickedDate){
-	 console.log("일정 수정");
+	// console.log("일정 수정");
 	 location.href = "/tripDetailUpdate?tripNo=" + tripNo + "&date=" + clickedDate; // 상세페이지 이동!
 }
  
 //일정 삭제 
  function removeSchedule(clickedDate){
 	 
-	 console.log("일정 삭제 버튼 tripNo >> ", tripNo);
-	 console.log("일정 삭제 버튼 clickedDate >> ", clickedDate);
+	// console.log("일정 삭제 버튼 tripNo >> ", tripNo);
+	// console.log("일정 삭제 버튼 clickedDate >> ", clickedDate);
 	 
 	    var confirmDelete = confirm('여행 상세 일정을 삭제하시겠습니까?');
 
@@ -435,7 +435,7 @@ function dataDetail(clickedDate) {
 		            tripDate : clickedDate
 		        };
 		        
-	        console.log("삭제 버튼 jsonData >> ", jsonData);
+	      //  console.log("삭제 버튼 jsonData >> ", jsonData);
 	        
 
 	        $.ajax({
@@ -444,7 +444,7 @@ function dataDetail(clickedDate) {
 	            data: JSON.stringify(jsonData), // JSON 문자열로 데이터 변환
 	            url: '/tripDetailDelete',
 	            success: function(result) {
-	            	console.log("result >> ", result);
+	            //	console.log("result >> ", result);
 	            	
 	                if (result.code == "ok") {
 	                    alert("여행 상세 일정이 삭제되었습니다.");
@@ -468,7 +468,7 @@ function dataDetail(clickedDate) {
  // 목록이동
  function movePage(){
 	 
-	 console.log("페이지 이동");
+	// console.log("페이지 이동");
 	 location.href = "/tripList"
 	 	 
  }

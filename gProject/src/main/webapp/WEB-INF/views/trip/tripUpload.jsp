@@ -171,12 +171,11 @@ function validation(){
 function tripWrite(){       
 	
     // 데이터 여부 확인
-    if (!validation()) {
-        // 유효성 검사 실패 시 처리할 로직 추가
+    if (!validation()) {        
         return false; // 이벤트 중지
     }
-
-	console.log("버튼클릭! ");
+	//console.log("버튼클릭! ");
+	
 	var formSerializeObject = $('#newData').serializeObject(); //serializeObject 아래 함수 확인!
 	var jsonMemberData = JSON.stringify(formSerializeObject);
 
@@ -196,8 +195,7 @@ function tripWrite(){
 			}
 		}	
 	});
-	
-	
+		
 }
 
 

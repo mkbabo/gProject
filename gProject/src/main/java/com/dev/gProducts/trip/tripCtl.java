@@ -24,7 +24,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripInsert", method = RequestMethod.POST)
 	public Map<String, Object> tripInsert (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("컨트롤 data >> "+ data);
+		//System.out.println("컨트롤 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripInsert(data);
@@ -36,7 +36,7 @@ public class tripCtl {
 	//여행 일정 목록
     @RequestMapping(value = "/getList", method = RequestMethod.GET)
     public List<Map<String, Object>> tripList () {
-        System.out.println("여행 일정 목록 컨트롤");
+        //System.out.println("여행 일정 목록 컨트롤");
 
         List<Map<String, Object>> resultMap = tripSvc.tripList();
 
@@ -47,7 +47,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripData", method = RequestMethod.GET)
 	public Map<String, Object> tripData (@RequestParam Map<String, Object> data) throws Exception {
 		
-		System.out.println("여행 일정 조회 data >> "+ data);
+		//System.out.println("여행 일정 조회 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripData(data);
@@ -60,7 +60,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripDelete", method = RequestMethod.POST)
 	public Map<String, Object> tripDelete (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("여행 일정 삭제 ctl data >> "+ data);
+		//System.out.println("여행 일정 삭제 ctl data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripDelete(data);
@@ -75,7 +75,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripDetailInsert", method = RequestMethod.POST)
 	public Map<String, Object> tripDetailInsert (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("컨트롤 data >> "+ data);
+		//System.out.println("컨트롤 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripDetailInsert(data);
@@ -87,11 +87,11 @@ public class tripCtl {
 	//여행 상세 일정 조회
     @RequestMapping(value = "/tripDetailSelect", method = RequestMethod.GET)
     public List<Map<String, Object>> tripDetailSelect (@RequestParam Map<String, Object> data) {
-        System.out.println("여행 일정 목록 컨트롤");
+       // System.out.println("여행 일정 목록 컨트롤");
 
         List<Map<String, Object>> resultMap = tripSvc.tripDetailSelect(data);
         
-        System.out.println("resultMap 컨트롤 tripDetail >> "+ resultMap);
+       // System.out.println("resultMap 컨트롤 tripDetail >> "+ resultMap);
         
         return resultMap;
     }	
@@ -100,7 +100,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripDetailDelete", method = RequestMethod.POST)
 	public Map<String, Object> tripDetailDelete (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("여행 상세 일정 삭제 data >> "+ data);
+		//System.out.println("여행 상세 일정 삭제 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripDetailDelete(data);
@@ -113,7 +113,7 @@ public class tripCtl {
 	@RequestMapping(value = "/tripDataUpdate", method = RequestMethod.POST)
 	public Map<String, Object> tripDataUpdate (@RequestBody Map<String, Object> data) throws Exception {
 		
-		System.out.println("수정 컨트롤 data >> "+ data);
+		//System.out.println("수정 컨트롤 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripSvc.tripDataUpdate(data);

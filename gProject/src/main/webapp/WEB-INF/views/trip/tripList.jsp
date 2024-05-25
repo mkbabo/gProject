@@ -128,7 +128,7 @@ function getList(){
         dataType: 'json', 
         //data : data,        
         success : function(result){
-            console.log("전체 글 결과 리스트 >>", result);
+           // console.log("전체 글 결과 리스트 >>", result);
              var template = ""; // 템플릿 변수 초기화
             $.each(result, function(index, item) {
                 // 각 행 추가
@@ -160,13 +160,13 @@ function getList(){
 
 function detailPage(tripNo){
 	
-	console.log("tripNo >> " , tripNo)
+	//console.log("tripNo >> " , tripNo)
 }
 
 
 function tripAddBtn(tripNo){
 	
-	console.log("tripNo >> " , tripNo)
+	//console.log("tripNo >> " , tripNo)
 	location.href="/tripDetail?tripNo="+tripNo;
 	
 	
@@ -174,7 +174,7 @@ function tripAddBtn(tripNo){
 
 function photoBtn(tripNo){
 	
-	console.log("tripNo >> " , tripNo)
+	//console.log("tripNo >> " , tripNo)
 	location.href="/gallery?tripNo="+tripNo;
 	
 	
@@ -185,7 +185,7 @@ function tripDelBtn(tripNo) {
     var confirmDelete = confirm('삭제하시면 상세 일정 및 앨범이 모두 삭제됩니다. \n그래도 여행 일정을 삭제하시겠습니까?');
 
     if (confirmDelete) {
-        console.log("삭제 버튼 >> ", tripNo);
+       // console.log("삭제 버튼 >> ", tripNo);
 
         var jsonData = {
             tripNo: 'trip_006'
@@ -198,7 +198,7 @@ function tripDelBtn(tripNo) {
             url: '/tripDelete',
             success: function(result) {
             	
-            	console.log("result >> " , result)
+            	//console.log("result >> " , result)
             	
                 if (result.code == "ok") {
                     alert("여행 일정이 삭제되었습니다.");

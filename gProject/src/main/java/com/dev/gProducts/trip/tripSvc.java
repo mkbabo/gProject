@@ -23,12 +23,12 @@ public class tripSvc {
 	
 	//여행 일정 추가
 	public Map<String, Object> tripInsert(Map<String, Object> data) {
-		System.out.println("서비스 data >> "+ data);
+		//System.out.println("서비스 data >> "+ data);
 		
 		String newTripNo = tripDao.tripNoSelect();
 		data.put("tripNo", newTripNo);
 		
-		System.out.println("입력 데이터 >> " + data);
+		//System.out.println("입력 데이터 >> " + data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		int result = tripDao.tripInsert(data);
@@ -55,18 +55,18 @@ public class tripSvc {
 	//여행 일정 조회
 	public Map<String, Object> tripData(Map<String, Object> data) {
 		
-		System.out.println("여행 일정 조회 서비스 data >> "+ data);
+		//System.out.println("여행 일정 조회 서비스 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap = tripDao.tripData(data);
-		System.out.println("resultMap 서비스 data >> "+ resultMap);
+		//System.out.println("resultMap 서비스 data >> "+ resultMap);
 		
 		return resultMap;
 	}
 	
 	//여행 일정 삭제 (앨범 사진, 상세 일정 모두 삭제해야함)
 	public Map<String, Object> tripDelete(Map<String, Object> data) {
-		System.out.println("여행 일정 삭제 svc data >> "+ data); //{tripNo=trip_006}
+		//System.out.println("여행 일정 삭제 svc data >> "+ data); //{tripNo=trip_006}
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
@@ -148,7 +148,7 @@ public class tripSvc {
 /****************** 여행 상세 일정 ******************/
 	//여행 상세 일정 추가
 	public Map<String, Object> tripDetailInsert(Map<String, Object> data) {
-		System.out.println("서비스 data >> "+ data);
+		//System.out.println("서비스 data >> "+ data);
 		
 		int keyCount = data.size();
 
@@ -161,19 +161,19 @@ public class tripSvc {
 		    String detailNo = entry.getKey(); //key
 		    String detailData = entry.getValue().toString();	
 		    
-		    System.out.println("서비스 key >> "+ detailNo);
-		    System.out.println("서비스 value >> "+ detailData);
+		   // System.out.println("서비스 key >> "+ detailNo);
+		   // System.out.println("서비스 value >> "+ detailData);
 			
 		    // 키를 '_' 기준으로 분리하여 tripNo와 tripDate 추출
 		    String[] keyParts = detailNo.split("_");
-		    System.out.println("서비스 keyParts.length >> "+ keyParts.length);
+		   // System.out.println("서비스 keyParts.length >> "+ keyParts.length);
 		    
 		    if (keyParts.length == 5) { // 적절한 키 형식이어야 함을 확인
 		        String tripNo = keyParts[0]+"_"+keyParts[1];
 		        String tripDate = keyParts[2];
 		        
-			    System.out.println("서비스 tripNo >> "+ tripNo);
-			    System.out.println("서비스 tripDate >> "+ tripDate);
+			  //  System.out.println("서비스 tripNo >> "+ tripNo);
+			  //  System.out.println("서비스 tripDate >> "+ tripDate);
 		        
 				result += tripDao.tripDetailInsert(detailNo, detailData, tripNo, tripDate);
 
@@ -184,8 +184,8 @@ public class tripSvc {
 
 		}
 
-		System.out.println("result >> "+ result);
-		System.out.println("키 값의 개수: " + keyCount);
+		//System.out.println("result >> "+ result);
+		//System.out.println("키 값의 개수: " + keyCount);
 
 		if(result == keyCount) {
 			resultMap.put("code", "ok");
@@ -200,11 +200,11 @@ public class tripSvc {
 	//여행 상세 일정 조회
 	public List<Map<String, Object>> tripDetailSelect(Map<String, Object> data) {
 	
-		System.out.println("여행 일정 조회 서비스 data >> "+ data);
+		//System.out.println("여행 일정 조회 서비스 data >> "+ data);
 		
 		List<Map<String, Object>> resultMap = tripDao.tripDetailSelect(data);
 		
-		System.out.println("resultMap 서비스 tripDetail >> "+ resultMap);
+		//System.out.println("resultMap 서비스 tripDetail >> "+ resultMap);
 		
 		return resultMap;
 }
@@ -212,11 +212,11 @@ public class tripSvc {
 	
 	//여행 상세 일정 삭제
 	public Map<String, Object> tripDetailDelete(Map<String, Object> data) {
-		System.out.println("여행 상세 일정 삭제 data >> "+ data);
+		//System.out.println("여행 상세 일정 삭제 data >> "+ data);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		int result = tripDao.tripDetailDelete(data);
-		System.out.println("여행 상세 일정 삭제 result >> "+ result);
+		//System.out.println("여행 상세 일정 삭제 result >> "+ result);
 		
 		
 		if(result > 0) {
@@ -230,7 +230,7 @@ public class tripSvc {
 
 	//여행 상세 일정 수정
 	public Map<String, Object> tripDataUpdate(Map<String, Object> data) {
-		System.out.println("서비스 data >> "+ data);
+		//System.out.println("서비스 data >> "+ data);
 		
 		Map<String, Object> dataDel = new HashMap<String, Object>();
 		
@@ -243,7 +243,7 @@ public class tripSvc {
 		}
 		if (firstKey != null) {
 		    // 첫 번째 키를 찾았을 때의 처리
-		    System.out.println("첫 번째 키: " + firstKey);
+		    //System.out.println("첫 번째 키: " + firstKey);
 
 		    String[] parts = firstKey.split("_");	    
 		    String tripNo = parts[0]+"_"+parts[1];
@@ -253,7 +253,7 @@ public class tripSvc {
 		    dataDel.put("tripDate", date);
 		    
 			int resultDel = tripDao.tripDetailDelete(dataDel);
-			System.out.println("여행 상세 일정 삭제 result >> "+ resultDel);
+			//System.out.println("여행 상세 일정 삭제 result >> "+ resultDel);
 		    
 		} else {
 		    // 키가 없을 때의 처리
@@ -273,19 +273,19 @@ public class tripSvc {
 		    String detailNo = entry.getKey(); //key
 		    String detailData = entry.getValue().toString();	
 		    
-		    System.out.println("서비스 key >> "+ detailNo);
-		    System.out.println("서비스 value >> "+ detailData);
+		   // System.out.println("서비스 key >> "+ detailNo);
+		   // System.out.println("서비스 value >> "+ detailData);
 			
 		    // 키를 '_' 기준으로 분리하여 tripNo와 tripDate 추출
 		    String[] keyParts = detailNo.split("_");
-		    System.out.println("서비스 keyParts.length >> "+ keyParts.length);
+		   // System.out.println("서비스 keyParts.length >> "+ keyParts.length);
 		    
 		    if (keyParts.length == 5) { // 적절한 키 형식이어야 함을 확인
 		        String tripNo = keyParts[0]+"_"+keyParts[1];
 		        String tripDate = keyParts[2];
 		        
-			    System.out.println("서비스 tripNo >> "+ tripNo);
-			    System.out.println("서비스 tripDate >> "+ tripDate);
+			   // System.out.println("서비스 tripNo >> "+ tripNo);
+			   // System.out.println("서비스 tripDate >> "+ tripDate);
 		        
 				result += tripDao.tripDetailInsert(detailNo, detailData, tripNo, tripDate);
 
@@ -296,8 +296,8 @@ public class tripSvc {
 
 		}
 
-		System.out.println("result >> "+ result);
-		System.out.println("키 값의 개수: " + keyCount);
+		//System.out.println("result >> "+ result);
+		//System.out.println("키 값의 개수: " + keyCount);
 
 		if(result == keyCount) {
 			resultMap.put("code", "ok");
