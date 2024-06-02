@@ -8,7 +8,7 @@
 * 컴퓨터 프로젝트 과제 - 소프트웨어 제작
 
 ## 개발 기간 🗓️
-> 2025.03.25 ~ 2025.05.26
+> 2024.03.25 ~ 2024.05.26
                                                 
 ## 개발환경 🖥️
 - <img src="https://img.shields.io/badge/Framework-%23121011?style=for-the-badge"><img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"><img src="https://img.shields.io/badge/2.7.4-515151?style=for-the-badge">
